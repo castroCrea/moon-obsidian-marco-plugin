@@ -1,5 +1,5 @@
 {
-  "name": "@moonjot/moon-sample-plugin",
+  "name": "@moonjot/moon-obsidian-marco-plugin",
   "version": "0.0.0",
   "description": "Moon sample plugin for Moon",
   "main": "./dist/index.js",
@@ -15,7 +15,7 @@
     "build": "tsc",
     "prebuild": "rm -rf dist",
     "pub": "yarn build && yarn publish --access public",
-    "lint": "eslint . --ext .ts",
+    "lint": "eslint . --ext .ts --fix",
     "watch": "tsc --watch"
   },
   "keywords": [

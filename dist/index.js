@@ -10,55 +10,35 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const moon_1 = require("@moonjot/moon");
+const integration_1 = require("./integration");
 class default_1 extends moon_1.MoonPlugin {
     constructor(props) {
         // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
         super(props);
-        this.name = 'Sample';
-        this.logo = 'https://previews.123rf.com/images/aquir/aquir1311/aquir131100316/23569861-sample-grunge-red-round-stamp.jpg';
+        this.name = 'Obsidian Marco';
+        this.logo = 'https://www.mindstoneconsulting.net/content/images/size/w300/2024/04/Logo-500x500-1.png';
         this.settingsDescription = {
-            token: {
-                type: 'string',
+            pathToTemplates: {
+                type: 'path',
                 required: true,
-                label: 'Token',
-                description: 'The Sample plugin token.'
-            },
-            databaseId: {
-                type: 'string',
-                required: true,
-                label: 'Database ID',
-                description: 'The Sample database id plugin token.'
+                label: 'Path to templates',
+                description: 'Path to all your templates'
             }
         };
         this.settings = {
-            token: '',
-            databaseId: ''
+            pathToTemplates: ''
         };
         this.integration = {
-            callback: ({ context, html }) => __awaiter(this, void 0, void 0, function* () {
-                console.log('MoonPlugin integration');
-                return false;
+            callback: ({ markdown, context }) => __awaiter(this, void 0, void 0, function* () {
+                return (0, integration_1.doIntegration)({ markdown, pathToTemplates: this.settings.pathToTemplates, log: this.log, context });
             }),
-            buttonIconUrl: 'https://previews.123rf.com/images/aquir/aquir1311/aquir131100316/23569861-sample-grunge-red-round-stamp.jpg'
+            buttonIconUrl: 'https://www.mindstoneconsulting.net/content/images/size/w300/2024/04/Logo-500x500-1.png'
         };
-        this.context = ({ context }) => __awaiter(this, void 0, void 0, function* () {
-            console.log('MoonPlugin integration');
-            return context;
-        });
         if (!props)
             return;
         if (props.settings)
             this.settings = props.settings;
-        this.settingsButtons = [
-            {
-                type: 'button',
-                callback: () => {
-                    window.open('https://moonjot.com', '_blank');
-                },
-                label: 'Button that trigger a callback',
-                description: 'Button that trigger a callback.'
-            }
-        ];
+        this.log = props.helpers.moonLog;
     }
 }
 exports.default = default_1;

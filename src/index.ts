@@ -1,14 +1,9 @@
 import { type Context, MoonPlugin, type MoonPluginConstructorProps, type MoonPluginSettings, type PluginSettingsDescription } from '@moonjot/moon'
+import { doIntegration } from './integration'
 
 interface SamplePluginSettingsDescription extends PluginSettingsDescription {
-  token: {
-    type: 'string'
-    required: boolean
-    label: string
-    description: string
-  }
-  databaseId: {
-    type: 'string'
+  pathToTemplates: {
+    type: 'path'
     required: boolean
     label: string
     description: string
@@ -16,68 +11,45 @@ interface SamplePluginSettingsDescription extends PluginSettingsDescription {
 }
 
 interface SamplePluginSettings extends MoonPluginSettings {
-  token: string
-  databaseId: string
+  pathToTemplates: string
 }
 
 export default class extends MoonPlugin {
-  name: string = 'Sample'
-  logo: string = 'https://previews.123rf.com/images/aquir/aquir1311/aquir131100316/23569861-sample-grunge-red-round-stamp.jpg'
+  name: string = 'Obsidian Marco'
+  logo: string = 'https://www.mindstoneconsulting.net/content/images/size/w300/2024/04/Logo-500x500-1.png'
 
   settingsDescription: SamplePluginSettingsDescription = {
-    token: {
-      type: 'string',
+    pathToTemplates: {
+      type: 'path',
       required: true,
-      label: 'Token',
-      description: 'The Sample plugin token.'
-    },
-    databaseId: {
-      type: 'string',
-      required: true,
-      label: 'Database ID',
-      description: 'The Sample database id plugin token.'
+      label: 'Path to templates',
+      description: 'Path to all your templates'
     }
   }
 
   settings: SamplePluginSettings = {
-    token: '',
-    databaseId: ''
+    pathToTemplates: ''
   }
+
+  log: ((log: string) => void) | undefined
 
   constructor (props?: MoonPluginConstructorProps<SamplePluginSettings>) {
     // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
     super(props)
     if (!props) return
     if (props.settings) this.settings = props.settings
-
-    this.settingsButtons = [
-      {
-        type: 'button',
-        callback: () => {
-          window.open('https://moonjot.com', '_blank')
-        },
-        label: 'Button that trigger a callback',
-        description: 'Button that trigger a callback.'
-
-      }
-    ]
+    this.log = props.helpers.moonLog
   }
 
   integration = {
-    callback: async ({ context, html }: {
+    callback: async ({ markdown, context }: {
       html: string
       markdown: string
       context: Context
     }
     ) => {
-      console.log('MoonPlugin integration')
-      return false
+      return doIntegration({ markdown, pathToTemplates: this.settings.pathToTemplates, log: this.log, context })
     },
-    buttonIconUrl: 'https://previews.123rf.com/images/aquir/aquir1311/aquir131100316/23569861-sample-grunge-red-round-stamp.jpg'
-  }
-
-  context = async ({ context }: { context: Context }) => {
-    console.log('MoonPlugin integration')
-    return context
+    buttonIconUrl: 'https://www.mindstoneconsulting.net/content/images/size/w300/2024/04/Logo-500x500-1.png'
   }
 }
