@@ -1,13 +1,4 @@
-import { extractAllNotes, extractTextFromAnchor } from "../extractText";
-
-describe('extractTextFromAnchor', () => {
-  it('extractTextFromAnchor', () => {
-    const text = '${START_NOTE}This is the text ${SOURCE.TEXT}${END_NOTE} some content after'
-    const result = extractTextFromAnchor({ text, startAnchor: '${START_NOTE}', endAnchor: '${END_NOTE}' })
-    expect(result).toEqual('This is the text ${SOURCE.TEXT}')
-   }
-  )
-})
+import { extractAllNotes } from "../extractText";
 
 describe('extractAllNotes', () => {
   it('extractAllNotes', () => {
