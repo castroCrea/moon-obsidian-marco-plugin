@@ -21,4 +21,9 @@ describe('searchObject', () => {
     const result = searchObject({ obj,path: 'item.hello.world_not_defined' })
     expect(result).toBeUndefined()
    })
+  it('searchObject with object', () => {
+    const obj = { item: { hello: { world: 'boom' }}, array: [{ hello: { world: 'boom' } }]}
+    const result = searchObject({ obj,path: 'array.0.hello' })
+    expect(result).toEqual(obj.array[0].hello)
+   })
 })

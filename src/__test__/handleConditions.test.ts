@@ -81,7 +81,8 @@ URL: \${SOURCE.URL}
 \${END_IF SOURCE.URL}
 \${END_IF SOURCE.TEXT}`
     const result = getPath({ content, searchObj: {source: {text: 'some text', url: 'https://moonjot.com'}} as SearchObject, log: undefined })
-    expect(result).toEqual("/1/boom.md")
+    expect(result.path).toEqual("/1/boom.md")
+    expect(JSON.stringify(result.content)).toEqual("\"\\n    ${IF SOURCE.TEXT}\\ncontent\\n${IF SOURCE.URL}\\nURL: ${SOURCE.URL}\\n${END_IF SOURCE.URL}\\n${END_IF SOURCE.TEXT}\"")
   })
   
   it('getPath with condition 2', () => {
@@ -97,7 +98,8 @@ URL: \${SOURCE.URL}
 \${END_IF SOURCE.URL}
 \${END_IF SOURCE.TEXT}`
     const result = getPath({ content, searchObj: {source: {text: 'some text', url: 'https://moonjot.com'}} as SearchObject, log: undefined })
-    expect(result).toEqual("/URL/https://moonjot.com.md")
+    expect(result.path).toEqual("/URL/https://moonjot.com.md")
+    expect(JSON.stringify(result.content)).toEqual("\"\\n    ${IF SOURCE.TEXT}\\ncontent\\n${IF SOURCE.URL}\\nURL: ${SOURCE.URL}\\n${END_IF SOURCE.URL}\\n${END_IF SOURCE.TEXT}\"")
   })
   
   it('getPath with condition 3', () => {
@@ -114,7 +116,8 @@ URL: \${SOURCE.URL}
 \${END_IF SOURCE.URL}
 \${END_IF SOURCE.TEXT}`
     const result = getPath({ content, searchObj: {source: {text: 'some text', url: 'https://moonjot.com'}} as SearchObject, log: undefined })
-    expect(result).toEqual("/not_condition/Journal.md")
+    expect(result.path).toEqual("/not_condition/Journal.md")
+    expect(JSON.stringify(result.content)).toEqual("\"\\n    ${IF SOURCE.TEXT}\\ncontent\\n${IF SOURCE.URL}\\nURL: ${SOURCE.URL}\\n${END_IF SOURCE.URL}\\n${END_IF SOURCE.TEXT}\"")
   })
   
 })
