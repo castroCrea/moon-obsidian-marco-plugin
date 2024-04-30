@@ -14,7 +14,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.doIntegration = void 0;
+exports.handleAnchorsFlow = exports.doIntegration = void 0;
 const extractTitleFromMarkdown_1 = require("./extractTitleFromMarkdown");
 const fs_1 = __importDefault(require("fs"));
 const path_1 = __importDefault(require("path"));
@@ -24,8 +24,13 @@ const doIntegration = ({ markdown, pathToTemplate, log, context }) => {
     if (!pathToTemplate)
         return [];
     const defaultTemplate = fs_1.default.readFileSync(path_1.default.join(pathToTemplate), 'utf8');
+    return (0, exports.handleAnchorsFlow)({ markdown, template: defaultTemplate !== null && defaultTemplate !== void 0 ? defaultTemplate : '', log, context });
+};
+exports.doIntegration = doIntegration;
+const handleAnchorsFlow = ({ markdown, template, log, context }) => {
+    const handleDateContent = (0, handleAnchors_1.turnDate)({ content: template });
     // eslint-disable-next-line no-template-curly-in-string
-    const allNotes = (0, extractText_1.extractAllNotes)({ text: defaultTemplate, startAnchor: '${START_NOTE}', endAnchor: '${END_NOTE}' }).filter((note) => !!note);
+    const allNotes = (0, extractText_1.extractAllNotes)({ text: handleDateContent, startAnchor: '${START_NOTE}', endAnchor: '${END_NOTE}' }).filter((note) => !!note);
     const title = (0, extractTitleFromMarkdown_1.extractTitleFromMarkdown)(markdown);
     const content = markdown;
     const searchObj = Object.assign(Object.assign({}, context), { title,
@@ -48,5 +53,5 @@ const doIntegration = ({ markdown, pathToTemplate, log, context }) => {
     log === null || log === void 0 ? void 0 : log(JSON.stringify(finalArray).replaceAll('${', '\\\$\\\{').replaceAll('}', '\\\}').replaceAll(')', '\\\)'));
     return finalArray;
 };
-exports.doIntegration = doIntegration;
+exports.handleAnchorsFlow = handleAnchorsFlow;
 //# sourceMappingURL=integration.js.map

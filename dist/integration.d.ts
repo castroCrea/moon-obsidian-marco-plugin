@@ -6,3 +6,9 @@ export declare const doIntegration: ({ markdown, pathToTemplate, log, context }:
     log: LOG;
     context: Context;
 }) => File[];
+export declare const handleAnchorsFlow: ({ markdown, template, log, context }: {
+    markdown: string;
+    template: string;
+    log: LOG;
+    context: Context;
+}) => File[];

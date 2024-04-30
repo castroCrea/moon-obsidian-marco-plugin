@@ -1,7 +1,8 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getPath = exports.handleConditions = exports.handleReplacingProperties = void 0;
+exports.turnDate = exports.getPath = exports.handleConditions = exports.handleReplacingProperties = void 0;
 const searchObject_1 = require("./searchObject");
+const extractText_1 = require("./extractText");
 const handleReplacingProperties = ({ content, searchObj }) => {
     const regex = /\$\{((\S)*?)\}/gm;
     const matches = content === null || content === void 0 ? void 0 : content.match(regex);
@@ -66,8 +67,27 @@ const getPath = ({ content, searchObj }) => {
         if (notePath)
             break;
     }
-    const regexRemovePath = /\${PATH}(\s|.)*\${END_PATH}\n/gm;
-    return { path: notePath === null || notePath === void 0 ? void 0 : notePath.trim(), content: content.replace(regexRemovePath, '') };
+    const regexRemovePath = /\${PATH}((.|\s)*?)\${END_PATH}/gm;
+    const regexRemovePathWithSpaceBefore = /(^\s+|\s+)\${PATH}((.|\s)*?)\${END_PATH}(^\s+|\s+)/gm;
+    const replacedContent = content.replaceAll(regexRemovePathWithSpaceBefore, '').replaceAll(regexRemovePath, '');
+    return { path: notePath === null || notePath === void 0 ? void 0 : notePath.trim(), content: replacedContent };
 };
 exports.getPath = getPath;
+const turnDate = ({ content }) => {
+    // eslint-disable-next-line no-template-curly-in-string
+    const datesFormat = (0, extractText_1.extractAllNotes)({ text: content, endAnchor: '${END_DATE}', startAnchor: '${DATE}' }).filter((date) => !!date);
+    if (!datesFormat.length)
+        return content;
+    const date = new Date();
+    const year = date.getFullYear();
+    const month = `0${date.getMonth() + 1}`.slice(-2);
+    const day = `0${date.getDate()}`.slice(-2);
+    datesFormat.forEach((dateFormat) => {
+        const dateFormatted = dateFormat.replace('YYYY', `${year}`).replace('MM', `${month}`).replace('DD', `${day}`);
+        const regexRemoveDate = new RegExp(`\\\${DATE}${dateFormat}\\\${END_DATE}`, 'gm');
+        content = content.replace(regexRemoveDate, dateFormatted);
+    });
+    return content;
+};
+exports.turnDate = turnDate;
 //# sourceMappingURL=handleAnchors.js.map

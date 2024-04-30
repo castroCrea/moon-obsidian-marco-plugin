@@ -15,3 +15,6 @@ export declare const getPath: ({ content, searchObj }: {
     path: string | undefined;
     content: string;
 };
+export declare const turnDate: ({ content }: {
+    content: string;
+}) => string;
