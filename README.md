@@ -3,6 +3,55 @@
 <span class="badge-npmversion"><a href="https://npmjs.org/package/@moonjot/moon-obsidian-marco-plugin" title="View this project on NPM"><img src="https://img.shields.io/npm/v/@moonjot/moon-obsidian-marco-plugin.svg" alt="NPM version" /></a></span>
 <span class="badge-npmdownloads"><a href="https://npmjs.org/package/@moonjot/moon-obsidian-marco-plugin" title="View this project on NPM"><img src="https://img.shields.io/npm/dm/@moonjot/moon-obsidian-marco-plugin.svg" alt="NPM downloads"/></a></span>
 
+# Installation
+
+1. Choose your vault
+2. Choose an empty file that will be your template set up.
+3. Use the following md template as starter
+
+```md
+${START_NOTE}
+${PATH}
+${IF TITLE} ${TITLE}.md ${END_IF TITLE}
+${END_PATH}
+---
+${IF SOURCE.DESCRIPTION} description: ${SOURCE.DESCRIPTION} ${END_IF SOURCE.DESCRIPTION}
+${IF SOURCE.TIMESTAMP} description: Youtube video timestamps captured ${SOURCE.TIMESTAMP} ${END_IF SOURCE.TIMESTAMP}
+${IF PEOPLE.0.NAME} author : ${PEOPLE.0.NAME} ${END_IF PEOPLE.0.NAME}
+---
+
+${CONTENT}
+
+${IF SOURCE.TEXT}
+# Clip
+${SOURCE.TEXT}
+${END_IF SOURCE.TEXT}
+${END_NOTE}
+
+${START_NOTE}
+${PATH}/Journal/${DATE}YYYY-MM-DD${END_DATE}.md${END_PATH}
+- ${CONTENT} [${SOURCE.TITLE}](${SOURCE.URL})
+${END_NOTE}
+```
+
+## Explanation
+
+`${START_NOTE}` and `${END_NOTE}` will be a note entity, all what will be inside a note.
+In between the `${START_NOTE}` and `${END_NOTE}` you must have a path that is define in order for the note to be created.
+To define a path you can add it between `${PATH}` and `${END_PATH}`.
+
+Example:
+```md
+${START_NOTE}
+${PATH}/Note/title.md${END_PATH}
+The following text has been capture with Moon Jot : ${CONTENT}
+${END_NOTE}
+```
+
+`${CONTENT}` is the content of the Moon jot Launcher at the moment you save.
+
+For more option check concept right after
+
 # Concept
 
 You can map a template that allows you to create your own format of note in Obsidian, base on the data we gather with Moon Jot
