@@ -50,12 +50,13 @@ ${TITLE}   // the title you add in the text editor on the first line with `# Som
 ```
 ${SOURCE.DESCRIPTION} // the source description
 
-${PERSON.NAME} // the person captured names (TODO)
+${PEOPLE.0.NAME} // the person captured names (TODO)
+${PEOPLE.1.NAME} // the person captured names (TODO)
 ```
 
 # TODO
 
-- [ ] Handle Journaling path
+- [x] Handle Journaling path
 - [ ] Make condition with "===" to embed note creation by type of source
 - [ ] Handle person context
 - [ ] Use template from another file like `${IF SOURCE.TYPE === 'tweet'}${TEMPLATE='tweet_template.md'}{END_IF SOURCE.TYPE}`

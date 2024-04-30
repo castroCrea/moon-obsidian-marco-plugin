@@ -1,8 +1,12 @@
 /* eslint-disable no-template-curly-in-string */
-interface StartEndAnchor {
+type StartEndAnchor = {
   startAnchor: '${START_NOTE}'
   endAnchor: '${END_NOTE}'
+} | {
+  startAnchor: '${DATE}'
+  endAnchor: '${END_DATE}'
 }
+
 export const extractAllNotes = ({
   text,
   startAnchor,

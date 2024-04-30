@@ -3,7 +3,7 @@ import { searchObject } from "../searchObject";
 describe('searchObject', () => {
   it('searchObject 1', () => {
     const obj = { item: { hello: {world: 'boom'}}}
-    const result = searchObject({ obj,path: 'item' })
+    const result = searchObject({ obj, path: 'item' })
     expect(result).toEqual(obj.item)
    })
   it('searchObject 2', () => {

@@ -5,14 +5,20 @@ import fs from 'fs'
 import path from 'path'
 import { type SearchObject, type LOG, type File } from './types'
 import { extractAllNotes } from './extractText'
-import { getPath, handleConditions, handleReplacingProperties } from './handleAnchors'
+import { getPath, handleConditions, handleReplacingProperties, turnDate } from './handleAnchors'
 
 export const doIntegration = ({ markdown, pathToTemplate, log, context }: { markdown: string, pathToTemplate?: string, log: LOG, context: Context }): File[] => {
   if (!pathToTemplate) return []
   const defaultTemplate = fs.readFileSync(path.join(pathToTemplate), 'utf8')
 
+  return handleAnchorsFlow({ markdown, template: defaultTemplate ?? '', log, context })
+}
+
+export const handleAnchorsFlow = ({ markdown, template, log, context }: { markdown: string, template: string, log: LOG, context: Context }): File[] => {
+  const handleDateContent = turnDate({ content: template })
+
   // eslint-disable-next-line no-template-curly-in-string
-  const allNotes = extractAllNotes({ text: defaultTemplate, startAnchor: '${START_NOTE}', endAnchor: '${END_NOTE}' }).filter((note): note is string => !!note)
+  const allNotes = extractAllNotes({ text: handleDateContent, startAnchor: '${START_NOTE}', endAnchor: '${END_NOTE}' }).filter((note): note is string => !!note)
 
   const title = extractTitleFromMarkdown(markdown)
   const content = markdown

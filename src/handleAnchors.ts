@@ -1,5 +1,6 @@
 import { type SearchObject, type LOG } from './types'
 import { searchObject } from './searchObject'
+import { extractAllNotes } from './extractText'
 
 export const handleReplacingProperties = ({ content, searchObj }: { content?: string, searchObj: SearchObject }) => {
   const regex = /\$\{((\S)*?)\}/gm
@@ -68,7 +69,30 @@ export const getPath = ({ content, searchObj }: { content: string, log: LOG, sea
     if (notePath) break
   }
 
-  const regexRemovePath = /\${PATH}(\s|.)*\${END_PATH}\n/gm
+  const regexRemovePath = /\${PATH}((.|\s)*?)\${END_PATH}/gm
+  const regexRemovePathWithSpaceBefore = /(^\s+|\s+)\${PATH}((.|\s)*?)\${END_PATH}(^\s+|\s+)/gm
 
-  return { path: notePath?.trim(), content: content.replace(regexRemovePath, '') }
+  const replacedContent = content.replaceAll(regexRemovePathWithSpaceBefore, '').replaceAll(regexRemovePath, '')
+
+  return { path: notePath?.trim(), content: replacedContent }
+}
+export const turnDate = ({ content }: { content: string }): string => {
+  // eslint-disable-next-line no-template-curly-in-string
+  const datesFormat = extractAllNotes({ text: content, endAnchor: '${END_DATE}', startAnchor: '${DATE}' }).filter((date): date is string => !!date)
+
+  if (!datesFormat.length) return content
+
+  const date = new Date()
+  const year = date.getFullYear()
+  const month = `0${date.getMonth() + 1}`.slice(-2)
+  const day = `0${date.getDate()}`.slice(-2)
+
+  datesFormat.forEach((dateFormat) => {
+    const dateFormatted = dateFormat.replace('YYYY', `${year}`).replace('MM', `${month}`).replace('DD', `${day}`)
+    const regexRemoveDate = new RegExp(`\\\${DATE}${dateFormat}\\\${END_DATE}`, 'gm')
+
+    content = content.replace(regexRemoveDate, dateFormatted)
+  })
+
+  return content
 }
