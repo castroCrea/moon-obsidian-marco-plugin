@@ -34,6 +34,17 @@ ${IF TITLE}${TITLE}.md${END_IF TITLE}
 ${END_PATH}
 ```
 
+## Date
+
+you can format date like YYYY-MM-DD
+
+```
+${DATE}YYYY-MM-DD${END_DATE}
+
+// example:
+${PATH}/Journal/${DATE}YYYY-MM-DD${END_DATE}.md${END_PATH}
+```
+
 ## Property
 
 There is many properties that you can user
