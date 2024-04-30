@@ -11,4 +11,7 @@ export declare const getPath: ({ content, searchObj }: {
     content: string;
     log: LOG;
     searchObj: SearchObject;
-}) => string | undefined;
+}) => {
+    path: string | undefined;
+    content: string;
+};

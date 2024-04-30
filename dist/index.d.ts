@@ -1,14 +1,20 @@
 import { type Context, MoonPlugin, type MoonPluginConstructorProps, type MoonPluginSettings, type PluginSettingsDescription } from '@moonjot/moon';
 interface SamplePluginSettingsDescription extends PluginSettingsDescription {
-    pathToTemplates: {
+    vaultPath: {
         type: 'path';
+        required: boolean;
+        label: string;
+        description: string;
+    };
+    pathToTemplate: {
+        type: 'file';
         required: boolean;
         label: string;
         description: string;
     };
 }
 interface SamplePluginSettings extends MoonPluginSettings {
-    pathToTemplates: string;
+    pathToTemplate: string;
 }
 export default class extends MoonPlugin {
     name: string;

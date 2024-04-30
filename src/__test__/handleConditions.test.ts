@@ -105,6 +105,7 @@ URL: \${SOURCE.URL}
     \${PATH}
     \${IF SOURCE.BOOM}/1/boom.md\${END_IF SOURCE.BOOM}
     \${IF SOURCE.BOOM2}/URL/\${SOURCE.URL}.md\${END_IF SOURCE.BOOM2}
+    /not_condition/Journal.md
     \${END_PATH}
 \${IF SOURCE.TEXT}
 content
@@ -113,7 +114,7 @@ URL: \${SOURCE.URL}
 \${END_IF SOURCE.URL}
 \${END_IF SOURCE.TEXT}`
     const result = getPath({ content, searchObj: {source: {text: 'some text', url: 'https://moonjot.com'}} as SearchObject, log: undefined })
-    expect(result).toEqual("")
+    expect(result).toEqual("/not_condition/Journal.md")
   })
   
 })

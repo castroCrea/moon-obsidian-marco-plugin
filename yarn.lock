@@ -1294,10 +1294,10 @@
     "@jridgewell/resolve-uri" "^3.1.0"
     "@jridgewell/sourcemap-codec" "^1.4.14"
 
-"@moonjot/moon@^0.1.65":
-  version "0.1.65"
-  resolved "https://registry.yarnpkg.com/@moonjot/moon/-/moon-0.1.65.tgz#9fc3487697c78ab9d8e2a5d02fa44dab324042fc"
-  integrity sha512-wv/QlcmAoGFIPHNd/0wMn9WfDNLGIzp6+9PsR5I46LnnBNRX4jyHeNiPMaROr1RT+/8K/qlmz99ChPvmnFZhCA==
+"@moonjot/moon@^0.1.67":
+  version "0.1.67"
+  resolved "https://registry.yarnpkg.com/@moonjot/moon/-/moon-0.1.67.tgz#5f7fcfa479782b57191c8c9bbc5090c91f415840"
+  integrity sha512-WvtbBt3yonSQDxk8dDWO5a0yL2dNWlVLUnPVmWpbmqSm5MCzJHAyDHpt7Co+n2gnhjIvWj4TpgDEuTp2rPfhoQ==
 
 "@nodelib/fs.scandir@2.1.5":
   version "2.1.5"
@@ -1405,6 +1405,11 @@
   dependencies:
     expect "^29.0.0"
     pretty-format "^29.0.0"
+
+"@types/js-yaml@^4.0.9":
+  version "4.0.9"
+  resolved "https://registry.yarnpkg.com/@types/js-yaml/-/js-yaml-4.0.9.tgz#cd82382c4f902fed9691a2ed79ec68c5898af4c2"
+  integrity sha512-k4MGaQl5TGo/iipqb2UDG2UwjXziSWkh0uysQelTlJpX1qGlpUZYm8PnO4DxG1qBomtJUdYJ6qR6xdIah10JLg==
 
 "@types/json-schema@^7.0.15":
   version "7.0.15"

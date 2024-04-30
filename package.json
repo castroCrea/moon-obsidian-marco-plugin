@@ -1,14 +1,15 @@
 {
   "name": "@moonjot/moon-obsidian-marco-plugin",
-  "version": "0.0.0",
-  "description": "Moon sample plugin for Moon",
+  "version": "0.0.1",
+  "description": "Moon Jot Obsidian Integration Inspired by Marco Serafini",
   "main": "./dist/index.js",
   "dependencies": {
-    "@moonjot/moon": "^0.1.65"
+    "@moonjot/moon": "^0.1.67",
+    "js-yaml": "^4.1.0"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/castroCrea/moon-sample-plugin"
+    "url": "https://github.com/castroCrea/moon-obsidian-marco-plugin"
   },
   "types": "./dist/index.d.ts",
   "scripts": {
@@ -20,9 +21,9 @@
     "test": "jest"
   },
   "keywords": [
-    "sample",
+    "obsidian",
     "plugin",
-    "moon",
+    "moon jot",
     "integration"
   ],
   "license": "MIT",
@@ -35,6 +36,7 @@
     "@babel/preset-typescript": "^7.24.1",
     "@jest/globals": "^29.7.0",
     "@types/jest": "^29.5.12",
+    "@types/js-yaml": "^4.0.9",
     "@types/node": "^20.12.3",
     "@typescript-eslint/eslint-plugin": "^7.5.0",
     "babel-jest": "^29.7.0",

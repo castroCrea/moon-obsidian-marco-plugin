@@ -3,25 +3,16 @@ import { type Context } from '@moonjot/moon'
 import { extractTitleFromMarkdown } from './extractTitleFromMarkdown'
 import fs from 'fs'
 import path from 'path'
-import { type SearchObject, type LOG } from './types'
+import { type SearchObject, type LOG, type File } from './types'
 import { extractAllNotes } from './extractText'
 import { getPath, handleConditions, handleReplacingProperties } from './handleAnchors'
 
-export const doIntegration = ({ markdown, pathToTemplates, log, context }: { markdown: string, pathToTemplates?: string, log: LOG, context: Context }) => {
-  if (!pathToTemplates) return false
-  const defaultTemplate = fs.readFileSync(path.join(pathToTemplates, 'default.md'), 'utf8')
+export const doIntegration = ({ markdown, pathToTemplate, log, context }: { markdown: string, pathToTemplate?: string, log: LOG, context: Context }): File[] => {
+  if (!pathToTemplate) return []
+  const defaultTemplate = fs.readFileSync(path.join(pathToTemplate), 'utf8')
 
   // eslint-disable-next-line no-template-curly-in-string
-  const allNotes = extractAllNotes({ text: defaultTemplate, startAnchor: '${START_NOTE}', endAnchor: '${END_NOTE}' })
-
-  const allNotesWithPath = allNotes.map(noteContent => {
-    // eslint-disable-next-line @typescript-eslint/no-confusing-void-expression
-    const notePath = getPath({ content: noteContent ?? '', log, searchObj })
-    return ({
-      noteContent,
-      path: notePath
-    })
-  }).filter(n => !!n.path)
+  const allNotes = extractAllNotes({ text: defaultTemplate, startAnchor: '${START_NOTE}', endAnchor: '${END_NOTE}' }).filter((note): note is string => !!note)
 
   const title = extractTitleFromMarkdown(markdown)
   const content = markdown
@@ -32,20 +23,24 @@ export const doIntegration = ({ markdown, pathToTemplates, log, context }: { mar
     content
   }
 
+  const allNotesWithPath = allNotes.map(content => getPath({ content, log, searchObj })).filter((n): n is File => !!n.path && !!n.content)
+
   // CONTENT
-  const replaceAnchor = allNotesWithPath.map(({ noteContent, ...props }) => ({
+  const replaceAnchor: File[] = allNotesWithPath.map(({ content, ...props }) => ({
     ...props,
-    noteContent: handleReplacingProperties({ content: noteContent, searchObj })
-  }))
+    content: handleReplacingProperties({ content, searchObj }) ?? ''
+  })).filter(n => !!n.path && !!n.content)
+
   log?.(JSON.stringify(allNotesWithPath).replaceAll('${', '\\\$\\\{').replaceAll('}', '\\\}').replaceAll(')', '\\\)'))
 
-  const finalArray = replaceAnchor.map(({ noteContent, ...props }) => ({
+  // CONDITION
+  const finalArray = replaceAnchor.map<File>(({ content, ...props }) => ({
     ...props,
-    noteContent: handleConditions({ content: noteContent, searchObj })
-  }))
+    content: handleConditions({ content, searchObj }) ?? ''
+  })).filter(n => !!n.path && !!n.content)
 
   log?.('----')
   log?.(JSON.stringify(finalArray).replaceAll('${', '\\\$\\\{').replaceAll('}', '\\\}').replaceAll(')', '\\\)'))
 
-  return true
+  return finalArray
 }

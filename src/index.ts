@@ -1,9 +1,17 @@
 import { type Context, MoonPlugin, type MoonPluginConstructorProps, type MoonPluginSettings, type PluginSettingsDescription } from '@moonjot/moon'
 import { doIntegration } from './integration'
+import path from 'path'
+import { createDirectory, createFiles } from './createFile'
 
 interface SamplePluginSettingsDescription extends PluginSettingsDescription {
-  pathToTemplates: {
+  vaultPath: {
     type: 'path'
+    required: boolean
+    label: string
+    description: string
+  }
+  pathToTemplate: {
+    type: 'file'
     required: boolean
     label: string
     description: string
@@ -11,7 +19,7 @@ interface SamplePluginSettingsDescription extends PluginSettingsDescription {
 }
 
 interface SamplePluginSettings extends MoonPluginSettings {
-  pathToTemplates: string
+  pathToTemplate: string
 }
 
 export default class extends MoonPlugin {
@@ -19,8 +27,14 @@ export default class extends MoonPlugin {
   logo: string = 'https://www.mindstoneconsulting.net/content/images/size/w300/2024/04/Logo-500x500-1.png'
 
   settingsDescription: SamplePluginSettingsDescription = {
-    pathToTemplates: {
+    vaultPath: {
       type: 'path',
+      required: true,
+      label: 'Path to vault',
+      description: 'Path to vault'
+    },
+    pathToTemplate: {
+      type: 'file',
       required: true,
       label: 'Path to templates',
       description: 'Path to all your templates'
@@ -28,7 +42,8 @@ export default class extends MoonPlugin {
   }
 
   settings: SamplePluginSettings = {
-    pathToTemplates: ''
+    vaultPath: '',
+    pathToTemplate: ''
   }
 
   log: ((log: string) => void) | undefined
@@ -48,7 +63,21 @@ export default class extends MoonPlugin {
       context: Context
     }
     ) => {
-      return doIntegration({ markdown, pathToTemplates: this.settings.pathToTemplates, log: this.log, context })
+      try {
+        if (!this.settings.vaultPath) {
+          this.log?.('Error: Is vault path not defined')
+          return false
+        }
+        const files = doIntegration({ markdown, pathToTemplate: this.settings.pathToTemplate, log: this.log, context })
+
+        const defaultPath = path.join(this.settings.vaultPath)
+        createDirectory(defaultPath)
+
+        return createFiles({ files, vaultPath: this.settings.vaultPath })
+      } catch (err: any) {
+        this.log?.(`Error: ${this.name} => ${err.message}`)
+        return false
+      }
     },
     buttonIconUrl: 'https://www.mindstoneconsulting.net/content/images/size/w300/2024/04/Logo-500x500-1.png'
   }

@@ -53,20 +53,22 @@ export const handleConditions = ({ content, searchObj }: { content?: string, sea
   return handleConditions({ content, searchObj })
 }
 
-export const getPath = ({ content, searchObj }: { content: string, log: LOG, searchObj: SearchObject }): string | undefined => {
+export const getPath = ({ content, searchObj }: { content: string, log: LOG, searchObj: SearchObject }): { path: string | undefined, content: string } => {
   // eslint-disable-next-line no-template-curly-in-string
   const pathContent = (content.split('${END_PATH}')[0].split('${PATH}')[1])?.trim()
 
-  if (!pathContent) return undefined
+  if (!pathContent) return { path: undefined, content }
 
   const lines = pathContent.split('\n')
 
   let notePath: string | undefined
 
   for (const line of lines) {
-    notePath = handleConditions({ content: line ?? '', searchObj })
+    notePath = handleConditions({ content: line ?? '', searchObj })?.trim()
     if (notePath) break
   }
 
-  return notePath?.trim()
+  const regexRemovePath = /\${PATH}(\s|.)*\${END_PATH}\n/gm
+
+  return { path: notePath?.trim(), content: content.replace(regexRemovePath, '') }
 }

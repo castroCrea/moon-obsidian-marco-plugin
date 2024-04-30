@@ -20,37 +20,33 @@ const fs_1 = __importDefault(require("fs"));
 const path_1 = __importDefault(require("path"));
 const extractText_1 = require("./extractText");
 const handleAnchors_1 = require("./handleAnchors");
-const doIntegration = ({ markdown, pathToTemplates, log, context }) => {
-    if (!pathToTemplates)
-        return false;
-    const defaultTemplate = fs_1.default.readFileSync(path_1.default.join(pathToTemplates, 'default.md'), 'utf8');
+const doIntegration = ({ markdown, pathToTemplate, log, context }) => {
+    if (!pathToTemplate)
+        return [];
+    const defaultTemplate = fs_1.default.readFileSync(path_1.default.join(pathToTemplate), 'utf8');
     // eslint-disable-next-line no-template-curly-in-string
-    const allNotes = (0, extractText_1.extractAllNotes)({ text: defaultTemplate, startAnchor: '${START_NOTE}', endAnchor: '${END_NOTE}' });
-    const allNotesWithPath = allNotes.map(noteContent => {
-        // eslint-disable-next-line @typescript-eslint/no-confusing-void-expression
-        const notePath = (0, handleAnchors_1.getPath)({ content: noteContent !== null && noteContent !== void 0 ? noteContent : '', log, searchObj });
-        return ({
-            noteContent,
-            path: notePath
-        });
-    }).filter(n => !!n.path);
+    const allNotes = (0, extractText_1.extractAllNotes)({ text: defaultTemplate, startAnchor: '${START_NOTE}', endAnchor: '${END_NOTE}' }).filter((note) => !!note);
     const title = (0, extractTitleFromMarkdown_1.extractTitleFromMarkdown)(markdown);
     const content = markdown;
     const searchObj = Object.assign(Object.assign({}, context), { title,
         content });
+    const allNotesWithPath = allNotes.map(content => (0, handleAnchors_1.getPath)({ content, log, searchObj })).filter((n) => !!n.path && !!n.content);
     // CONTENT
     const replaceAnchor = allNotesWithPath.map((_a) => {
-        var { noteContent } = _a, props = __rest(_a, ["noteContent"]);
-        return (Object.assign(Object.assign({}, props), { noteContent: (0, handleAnchors_1.handleReplacingProperties)({ content: noteContent, searchObj }) }));
-    });
+        var _b;
+        var { content } = _a, props = __rest(_a, ["content"]);
+        return (Object.assign(Object.assign({}, props), { content: (_b = (0, handleAnchors_1.handleReplacingProperties)({ content, searchObj })) !== null && _b !== void 0 ? _b : '' }));
+    }).filter(n => !!n.path && !!n.content);
     log === null || log === void 0 ? void 0 : log(JSON.stringify(allNotesWithPath).replaceAll('${', '\\\$\\\{').replaceAll('}', '\\\}').replaceAll(')', '\\\)'));
+    // CONDITION
     const finalArray = replaceAnchor.map((_a) => {
-        var { noteContent } = _a, props = __rest(_a, ["noteContent"]);
-        return (Object.assign(Object.assign({}, props), { noteContent: (0, handleAnchors_1.handleConditions)({ content: noteContent, searchObj }) }));
-    });
+        var _b;
+        var { content } = _a, props = __rest(_a, ["content"]);
+        return (Object.assign(Object.assign({}, props), { content: (_b = (0, handleAnchors_1.handleConditions)({ content, searchObj })) !== null && _b !== void 0 ? _b : '' }));
+    }).filter(n => !!n.path && !!n.content);
     log === null || log === void 0 ? void 0 : log('----');
     log === null || log === void 0 ? void 0 : log(JSON.stringify(finalArray).replaceAll('${', '\\\$\\\{').replaceAll('}', '\\\}').replaceAll(')', '\\\)'));
-    return true;
+    return finalArray;
 };
 exports.doIntegration = doIntegration;
 //# sourceMappingURL=integration.js.map

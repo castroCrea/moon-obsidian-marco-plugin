@@ -82,10 +82,10 @@ const getPath = ({ noteContent, log, searchObj }) => {
     }
     return undefined;
 };
-const doIntegration = ({ markdown, pathToTemplates, log, context }) => {
-    if (!pathToTemplates)
+const doIntegration = ({ markdown, pathToTemplate, log, context }) => {
+    if (!pathToTemplate)
         return false;
-    const defaultTemplate = fs_1.default.readFileSync(path_1.default.join(pathToTemplates, 'default.md'), 'utf8');
+    const defaultTemplate = fs_1.default.readFileSync(path_1.default.join(pathToTemplate, 'default.md'), 'utf8');
     const allNotes = (0, extractText_1.extractAllNotes)({ text: defaultTemplate, startAnchor: '${START_NOTE}', endAnchor: '${END_NOTE}' });
     const allNotesWithPath = allNotes.map(noteContent => ({
         noteContent,
@@ -93,8 +93,10 @@ const doIntegration = ({ markdown, pathToTemplates, log, context }) => {
     })).filter(n => !!n.path);
     const title = (0, extractTitleFromMarkdown_1.extractTitleFromMarkdown)(markdown);
     const content = markdown;
-    const searchObj = Object.assign(Object.assign({}, context), { title,
-        content });
+    const searchObj = Object.assign(Object.assign({}, context), {
+        title,
+        content
+    });
     const ifArray = allNotesWithPath.map((_a) => {
         var { noteContent } = _a, props = __rest(_a, ["noteContent"]);
         return (Object.assign(Object.assign({}, props), { noteContent: handleConditions({ content: noteContent, searchObj }) }));

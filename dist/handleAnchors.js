@@ -54,19 +54,20 @@ const handleConditions = ({ content, searchObj }) => {
 };
 exports.handleConditions = handleConditions;
 const getPath = ({ content, searchObj }) => {
-    var _a;
+    var _a, _b;
     // eslint-disable-next-line no-template-curly-in-string
     const pathContent = (_a = (content.split('${END_PATH}')[0].split('${PATH}')[1])) === null || _a === void 0 ? void 0 : _a.trim();
     if (!pathContent)
-        return undefined;
+        return { path: undefined, content };
     const lines = pathContent.split('\n');
     let notePath;
     for (const line of lines) {
-        notePath = (0, exports.handleConditions)({ content: line !== null && line !== void 0 ? line : '', searchObj });
+        notePath = (_b = (0, exports.handleConditions)({ content: line !== null && line !== void 0 ? line : '', searchObj })) === null || _b === void 0 ? void 0 : _b.trim();
         if (notePath)
             break;
     }
-    return notePath === null || notePath === void 0 ? void 0 : notePath.trim();
+    const regexRemovePath = /\${PATH}(\s|.)*\${END_PATH}\n/gm;
+    return { path: notePath === null || notePath === void 0 ? void 0 : notePath.trim(), content: content.replace(regexRemovePath, '') };
 };
 exports.getPath = getPath;
 //# sourceMappingURL=handleAnchors.js.map

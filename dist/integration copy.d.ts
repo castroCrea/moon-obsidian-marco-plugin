@@ -1,8 +1,8 @@
 import { type Context } from '@moonjot/moon';
 import { type LOG } from './types';
-export declare const doIntegration: ({ markdown, pathToTemplates, log, context }: {
+export declare const doIntegration: ({ markdown, pathToTemplate, log, context }: {
     markdown: string;
-    pathToTemplates?: string | undefined;
+    pathToTemplate?: string | undefined;
     log: LOG;
     context: Context;
 }) => boolean;
