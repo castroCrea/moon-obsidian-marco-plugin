@@ -1,10 +1,10 @@
 /* eslint-disable no-template-curly-in-string */
 type StartEndAnchor = {
-  startAnchor: '${START_NOTE}'
-  endAnchor: '${END_NOTE}'
+  startAnchor: '{{START_NOTE}}'
+  endAnchor: '{{END_NOTE}}'
 } | {
-  startAnchor: '${DATE}'
-  endAnchor: '${END_DATE}'
+  startAnchor: '{{DATE}}'
+  endAnchor: '{{END_DATE}}'
 }
 
 export const extractAllNotes = ({

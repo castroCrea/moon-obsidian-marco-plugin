@@ -18,7 +18,7 @@ export const handleAnchorsFlow = ({ markdown, template, log, context }: { markdo
   const handleDateContent = turnDate({ content: template })
 
   // eslint-disable-next-line no-template-curly-in-string
-  const allNotes = extractAllNotes({ text: handleDateContent, startAnchor: '${START_NOTE}', endAnchor: '${END_NOTE}' }).filter((note): note is string => !!note)
+  const allNotes = extractAllNotes({ text: handleDateContent, startAnchor: '{{START_NOTE}}', endAnchor: '{{END_NOTE}}' }).filter((note): note is string => !!note)
 
   const title = extractTitleFromMarkdown(markdown)
   const content = markdown
@@ -37,7 +37,7 @@ export const handleAnchorsFlow = ({ markdown, template, log, context }: { markdo
     content: handleReplacingProperties({ content, searchObj }) ?? ''
   })).filter(n => !!n.path && !!n.content)
 
-  log?.(JSON.stringify(allNotesWithPath).replaceAll('${', '\\\$\\\{').replaceAll('}', '\\\}').replaceAll(')', '\\\)'))
+  log?.(JSON.stringify(allNotesWithPath))
 
   // CONDITION
   const finalArray = replaceAnchor.map<File>(({ content, ...props }) => ({
@@ -46,7 +46,7 @@ export const handleAnchorsFlow = ({ markdown, template, log, context }: { markdo
   })).filter(n => !!n.path && !!n.content)
 
   log?.('----')
-  log?.(JSON.stringify(finalArray).replaceAll('${', '\\\$\\\{').replaceAll('}', '\\\}').replaceAll(')', '\\\)'))
+  log?.(JSON.stringify(finalArray))
 
   return finalArray
 }

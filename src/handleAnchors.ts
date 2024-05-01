@@ -3,13 +3,13 @@ import { searchObject } from './searchObject'
 import { extractAllNotes } from './extractText'
 
 export const handleReplacingProperties = ({ content, searchObj }: { content?: string, searchObj: SearchObject }) => {
-  const regex = /\$\{((\S)*?)\}/gm
+  const regex = /{{((\S)*?)}}/gm
 
   const matches = content?.match(regex)
   // console.log({ matches })
 
   matches?.forEach(value => {
-    const key = (value.replace('${', '').replace('}', '')).toLowerCase()
+    const key = (value.replace('{{', '').replace('}}', '')).toLowerCase()
     const keyValue = searchObject({ obj: searchObj, path: key })
     const stringKeyValue = !keyValue ? undefined : typeof keyValue === 'string' ? keyValue : JSON.stringify(keyValue)
     if (!stringKeyValue) {
@@ -23,9 +23,9 @@ export const handleReplacingProperties = ({ content, searchObj }: { content?: st
 }
 
 export const handleConditions = ({ content, searchObj }: { content?: string, searchObj: SearchObject }): string | undefined => {
-  const regexIf = /\$\{IF.*?\}(?:[^{}])*?\{END_IF.*?\}/gm
-  const regexIfStart = /\$\{IF (.*?)\}/gm
-  const regexIfEnd = /\$\{END_IF (.*?)\}/gm
+  const regexIf = /{{IF.*?}}(?:[^{}])*?{{END_IF.*?}}/gm
+  const regexIfStart = /{{IF (.*?)}}/gm
+  const regexIfEnd = /{{END_IF (.*?)}}/gm
   const matches = content?.match(regexIf)
 
   content = handleReplacingProperties({ content, searchObj }) ?? ''
@@ -33,7 +33,7 @@ export const handleConditions = ({ content, searchObj }: { content?: string, sea
   matches?.forEach(value => {
     const ifValue = value.match(regexIfStart)?.[0]
     if (!ifValue) return
-    const key = (ifValue.replace('${IF ', '').replace('}', '')).toLowerCase()
+    const key = (ifValue.replace('{{IF ', '').replace('}}', '')).toLowerCase()
 
     const keyValue = searchObject({ obj: searchObj, path: key })
 
@@ -56,7 +56,7 @@ export const handleConditions = ({ content, searchObj }: { content?: string, sea
 
 export const getPath = ({ content, searchObj }: { content: string, log: LOG, searchObj: SearchObject }): { path: string | undefined, content: string } => {
   // eslint-disable-next-line no-template-curly-in-string
-  const pathContent = (content.split('${END_PATH}')[0].split('${PATH}')[1])?.trim()
+  const pathContent = (content.split('{{END_PATH}}')[0].split('{{PATH}}')[1])?.trim()
 
   if (!pathContent) return { path: undefined, content }
 
@@ -69,27 +69,26 @@ export const getPath = ({ content, searchObj }: { content: string, log: LOG, sea
     if (notePath) break
   }
 
-  const regexRemovePath = /\${PATH}((.|\s)*?)\${END_PATH}/gm
-  const regexRemovePathWithSpaceBefore = /(^\s+|\s+)\${PATH}((.|\s)*?)\${END_PATH}(^\s+|\s+)/gm
+  const regexRemovePath = /{{PATH}}((.|\s)*?){{END_PATH}}/gm
+  const replacedContent = content.replaceAll(regexRemovePath, '')
 
-  const replacedContent = content.replaceAll(regexRemovePathWithSpaceBefore, '').replaceAll(regexRemovePath, '')
-
-  return { path: notePath?.trim(), content: replacedContent }
+  return { path: notePath?.trim(), content: replacedContent.trim() }
 }
+
 export const turnDate = ({ content }: { content: string }): string => {
   // eslint-disable-next-line no-template-curly-in-string
-  const datesFormat = extractAllNotes({ text: content, endAnchor: '${END_DATE}', startAnchor: '${DATE}' }).filter((date): date is string => !!date)
+  const datesFormat = extractAllNotes({ text: content, endAnchor: '{{END_DATE}}', startAnchor: '{{DATE}}' }).filter((date): date is string => !!date)
 
   if (!datesFormat.length) return content
 
   const date = new Date()
-  const year = date.getFullYear()
+  const year = date.getFullYear().toString()
   const month = `0${date.getMonth() + 1}`.slice(-2)
   const day = `0${date.getDate()}`.slice(-2)
 
   datesFormat.forEach((dateFormat) => {
-    const dateFormatted = dateFormat.replace('YYYY', `${year}`).replace('MM', `${month}`).replace('DD', `${day}`)
-    const regexRemoveDate = new RegExp(`\\\${DATE}${dateFormat}\\\${END_DATE}`, 'gm')
+    const dateFormatted = dateFormat.replace('YYYY', year).replace('MM', month).replace('DD', day)
+    const regexRemoveDate = new RegExp(`{{DATE}}${dateFormat}{{END_DATE}}`, 'gm')
 
     content = content.replace(regexRemoveDate, dateFormatted)
   })
