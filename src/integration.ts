@@ -29,13 +29,13 @@ export const handleAnchorsFlow = ({ markdown, template, log, context }: { markdo
     content
   }
 
-  const allNotesWithPath = allNotes.map(content => getPath({ content, log, searchObj })).filter((n): n is File => !!n.path && !!n.content)
+  const allNotesWithPath = allNotes.map(content => getPath({ content, log, searchObj })).filter((n): n is File => !!n.path)
 
   // CONTENT
   const replaceAnchor: File[] = allNotesWithPath.map(({ content, ...props }) => ({
     ...props,
     content: handleReplacingProperties({ content, searchObj }) ?? ''
-  })).filter(n => !!n.path && !!n.content)
+  }))
 
   log?.(JSON.stringify(allNotesWithPath))
 
@@ -43,7 +43,7 @@ export const handleAnchorsFlow = ({ markdown, template, log, context }: { markdo
   const finalArray = replaceAnchor.map<File>(({ content, ...props }) => ({
     ...props,
     content: handleConditions({ content, searchObj }) ?? ''
-  })).filter(n => !!n.path && !!n.content)
+  }))
 
   log?.('----')
   log?.(JSON.stringify(finalArray))
