@@ -35,20 +35,20 @@ const handleAnchorsFlow = ({ markdown, template, log, context }) => {
     const content = markdown;
     const searchObj = Object.assign(Object.assign({}, context), { title,
         content });
-    const allNotesWithPath = allNotes.map(content => (0, handleAnchors_1.getPath)({ content, log, searchObj })).filter((n) => !!n.path && !!n.content);
+    const allNotesWithPath = allNotes.map(content => (0, handleAnchors_1.getPath)({ content, log, searchObj })).filter((n) => !!n.path);
     // CONTENT
     const replaceAnchor = allNotesWithPath.map((_a) => {
         var _b;
         var { content } = _a, props = __rest(_a, ["content"]);
         return (Object.assign(Object.assign({}, props), { content: (_b = (0, handleAnchors_1.handleReplacingProperties)({ content, searchObj })) !== null && _b !== void 0 ? _b : '' }));
-    }).filter(n => !!n.path && !!n.content);
+    });
     log === null || log === void 0 ? void 0 : log(JSON.stringify(allNotesWithPath));
     // CONDITION
     const finalArray = replaceAnchor.map((_a) => {
         var _b;
         var { content } = _a, props = __rest(_a, ["content"]);
         return (Object.assign(Object.assign({}, props), { content: (_b = (0, handleAnchors_1.handleConditions)({ content, searchObj })) !== null && _b !== void 0 ? _b : '' }));
-    }).filter(n => !!n.path && !!n.content);
+    });
     log === null || log === void 0 ? void 0 : log('----');
     log === null || log === void 0 ? void 0 : log(JSON.stringify(finalArray));
     return finalArray;
