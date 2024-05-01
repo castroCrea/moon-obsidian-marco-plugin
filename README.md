@@ -10,45 +10,45 @@
 3. Use the following md template as starter
 
 ```md
-${START_NOTE}
-${PATH}
-${IF TITLE} ${TITLE}.md ${END_IF TITLE}
-${END_PATH}
+{{START_NOTE}}
+{{PATH}}
+{{IF TITLE}} {{TITLE}}.md {{END_IF TITLE}}
+{{END_PATH}}
 ---
-${IF SOURCE.DESCRIPTION} description: ${SOURCE.DESCRIPTION} ${END_IF SOURCE.DESCRIPTION}
-${IF SOURCE.TIMESTAMP} description: Youtube video timestamps captured ${SOURCE.TIMESTAMP} ${END_IF SOURCE.TIMESTAMP}
-${IF PEOPLE.0.NAME} author : ${PEOPLE.0.NAME} ${END_IF PEOPLE.0.NAME}
+{{IF SOURCE.DESCRIPTION}} description: {{SOURCE.DESCRIPTION}} {{END_IF SOURCE.DESCRIPTION}}
+{{IF SOURCE.TIMESTAMP}} description: Youtube video timestamps captured {{SOURCE.TIMESTAMP}} {{END_IF SOURCE.TIMESTAMP}}
+{{IF PEOPLE.0.NAME}} author : {{PEOPLE.0.NAME}} {{END_IF PEOPLE.0.NAME}}
 ---
 
-${CONTENT}
+{{CONTENT}}
 
-${IF SOURCE.TEXT}
+{{IF SOURCE.TEXT}}
 # Clip
-${SOURCE.TEXT}
-${END_IF SOURCE.TEXT}
-${END_NOTE}
+{{SOURCE.TEXT}}
+{{END_IF SOURCE.TEXT}}
+{{END_NOTE}}
 
-${START_NOTE}
-${PATH}/Journal/${DATE}YYYY-MM-DD${END_DATE}.md${END_PATH}
-- ${CONTENT} [${SOURCE.TITLE}](${SOURCE.URL})
-${END_NOTE}
+{{START_NOTE}}
+{{PATH}}/Journal/{{DATE}}YYYY-MM-DD{{END_DATE}}.md{{END_PATH}}
+- {{CONTENT}} [{{SOURCE.TITLE}}]({{SOURCE.URL}})
+{{END_NOTE}}
 ```
 
 ## Explanation
 
-`${START_NOTE}` and `${END_NOTE}` will be a note entity, all what will be inside a note.
-In between the `${START_NOTE}` and `${END_NOTE}` you must have a path that is define in order for the note to be created.
-To define a path you can add it between `${PATH}` and `${END_PATH}`.
+`{{START_NOTE}}` and `{{END_NOTE}}` will be a note entity, all what will be inside a note.
+In between the `{{START_NOTE}}` and `{{END_NOTE}}` you must have a path that is define in order for the note to be created.
+To define a path you can add it between `{{PATH}}` and `{{END_PATH}}`.
 
 Example:
 ```md
-${START_NOTE}
-${PATH}/Note/title.md${END_PATH}
-The following text has been capture with Moon Jot : ${CONTENT}
-${END_NOTE}
+{{START_NOTE}}
+{{PATH}}/Note/title.md{{END_PATH}}
+The following text has been capture with Moon Jot : {{CONTENT}}
+{{END_NOTE}}
 ```
 
-`${CONTENT}` is the content of the Moon jot Launcher at the moment you save.
+`{{CONTENT}` is the content of the Moon jot Launcher at the moment you save.
 
 For more option check concept right after
 
@@ -61,26 +61,41 @@ You can map a template that allows you to create your own format of note in Obsi
 
 ## Must have
 
+### Create a note
+
 ALL that is embedded inside will be checked out as a note to be created
 ```
-${START_NOTE}${END_NOTE}
+{{START_NOTE}}{{END_NOTE}}
 ```
-You must add a path to the ${START_NOTE} otherwise your note will be not created
+
+### Add a path to your note
+You must add a path to the {{START_NOTE}} otherwise your note will be not created
 ```
-${PATH}${END_PATH}
+{{PATH}}{{END_PATH}}
 ```
+
+example:
+```
+{{PATH}}
+{{IF TITLE}}/Notes/{{TITLE}}.md{{END_IF TITLE}}
+{{IF SOURCE.TITLE}}/Notes/{{SOURCE. TITLE}}.md{{END_IF SOURCE.TITLE}}
+/Notes/ideas.md
+{{END_PATH}}
+```
+If you do that it will check the first if not good take the second if not good the last one.
+If path at the end is empty it will note create the note.
 
 ## Condition
 
 You can insert content with condition.
 So far condition is only do exist or not exist
 ```
-${IF ...}Write something${END_IF ...}
+{{IF ...}}Write something{{END_IF ...}}
 
 // example:
-${PATH}
-${IF TITLE}${TITLE}.md${END_IF TITLE}
-${END_PATH}
+{{PATH}}
+{{IF TITLE}}{{TITLE}}.md{{END_IF TITLE}}
+{{END_PATH}}
 ```
 
 ## Date
@@ -88,10 +103,10 @@ ${END_PATH}
 you can format date like YYYY-MM-DD
 
 ```
-${DATE}YYYY-MM-DD${END_DATE}
+{{DATE}}YYYY-MM-DD{{END_DATE}}
 
 // example:
-${PATH}/Journal/${DATE}YYYY-MM-DD${END_DATE}.md${END_PATH}
+{{PATH}}/Journal/{{DATE}}YYYY-MM-DD{{END_DATE}}.md{{END_PATH}}
 ```
 
 ## Property
@@ -101,17 +116,17 @@ There is many properties that you can user
 ### Basic for all devices
 
 ```
-${CONTENT} // what you wrote inside the text editor
-${TITLE}   // the title you add in the text editor on the first line with `# Some title`
+{{CONTENT}} // what you wrote inside the text editor
+{{TITLE}}   // the title you add in the text editor on the first line with `# Some title`
 ``` 
 
 ### From the context 
 
 ```
-${SOURCE.DESCRIPTION} // the source description
+{{SOURCE.DESCRIPTION}} // the source description
 
-${PEOPLE.0.NAME} // the person captured names (TODO)
-${PEOPLE.1.NAME} // the person captured names (TODO)
+{{PEOPLE.0.NAME}} // the person captured names (TODO)
+{{PEOPLE.1.NAME}} // the person captured names (TODO)
 ```
 
 # TODO
@@ -120,13 +135,13 @@ r
 - [ ] Make journal Path anchor `.obsidian/daily-notes.json` => `folder` (check if really worth it)
 - [ ] Make condition with "===" to embed note creation by type of source
 - [ ] Handle person context
-- [ ] Use template from another file like `${IF SOURCE.TYPE === 'tweet'}${TEMPLATE='tweet_template.md'}{END_IF SOURCE.TYPE}`
+- [ ] Use template from another file like `{{IF SOURCE.TYPE === 'tweet'}{{TEMPLATE='tweet_template.md'}{END_IF SOURCE.TYPE}`
 - [ ] Add default template that user can import to start
 - [ ] Add a Link to the docs
 - [ ] handle task creation if Text editor start with `- [ ]`
 - [ ] Fix `Error: Obsidian Marco => EISDIR: illegal operation on a directory, read` 
     ```
-    ${PATH}/Notes/${IF TITLE} ${TITLE}.md${END_IF TITLE}${END_PATH} 
+    {{PATH}}/Notes/{{IF TITLE}} {{TITLE}}.md{{END_IF TITLE}}{{END_PATH}} 
     // gives
     /Notes/.md
     ```
