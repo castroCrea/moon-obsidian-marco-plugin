@@ -115,14 +115,21 @@ ${PEOPLE.1.NAME} // the person captured names (TODO)
 ```
 
 # TODO
-
+r
 - [x] Handle Journaling path
+- [ ] Make journal Path anchor `.obsidian/daily-notes.json` => `folder` (check if really worth it)
 - [ ] Make condition with "===" to embed note creation by type of source
 - [ ] Handle person context
 - [ ] Use template from another file like `${IF SOURCE.TYPE === 'tweet'}${TEMPLATE='tweet_template.md'}{END_IF SOURCE.TYPE}`
 - [ ] Add default template that user can import to start
 - [ ] Add a Link to the docs
 - [ ] handle task creation if Text editor start with `- [ ]`
+- [ ] Fix `Error: Obsidian Marco => EISDIR: illegal operation on a directory, read` 
+    ```
+    ${PATH}/Notes/${IF TITLE} ${TITLE}.md${END_IF TITLE}${END_PATH} 
+    // gives
+    /Notes/.md
+    ```
 
 
 # Develop on Moon
