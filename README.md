@@ -207,7 +207,7 @@ r
 - [ ] Add default template that user can import to start
 - [ ] Add a Link to the docs
 - [ ] handle task creation if Text editor start with `- [ ]`
-- [ ] Fix `Error: Obsidian Marco => EISDIR: illegal operation on a directory, read` 
+- [x] Fix `Error: Obsidian Marco => EISDIR: illegal operation on a directory, read` 
     ```
     {{PATH}}/Notes/{{IF TITLE}} {{TITLE}}.md{{END_IF TITLE}}{{END_PATH}} 
     // gives
