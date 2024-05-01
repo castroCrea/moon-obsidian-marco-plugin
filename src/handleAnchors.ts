@@ -60,12 +60,12 @@ export const getPath = ({ content, searchObj }: { content: string, log: LOG, sea
 
   if (!pathContent) return { path: undefined, content }
 
-  const lines = pathContent.replaceAll('|', '').split('\n')
+  const lines = pathContent.split('\n')
 
   let notePath: string | undefined
 
   for (const line of lines) {
-    notePath = handleConditions({ content: line ?? '', searchObj })?.trim()
+    notePath = handleConditions({ content: line ?? '', searchObj })?.trim().replaceAll('|', '')
     if (notePath) break
   }
 

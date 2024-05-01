@@ -30,7 +30,7 @@ exports.doIntegration = doIntegration;
 const handleAnchorsFlow = ({ markdown, template, log, context }) => {
     const handleDateContent = (0, handleAnchors_1.turnDate)({ content: template });
     // eslint-disable-next-line no-template-curly-in-string
-    const allNotes = (0, extractText_1.extractAllNotes)({ text: handleDateContent, startAnchor: '${START_NOTE}', endAnchor: '${END_NOTE}' }).filter((note) => !!note);
+    const allNotes = (0, extractText_1.extractAllNotes)({ text: handleDateContent, startAnchor: '{{START_NOTE}}', endAnchor: '{{END_NOTE}}' }).filter((note) => !!note);
     const title = (0, extractTitleFromMarkdown_1.extractTitleFromMarkdown)(markdown);
     const content = markdown;
     const searchObj = Object.assign(Object.assign({}, context), { title,
@@ -42,7 +42,7 @@ const handleAnchorsFlow = ({ markdown, template, log, context }) => {
         var { content } = _a, props = __rest(_a, ["content"]);
         return (Object.assign(Object.assign({}, props), { content: (_b = (0, handleAnchors_1.handleReplacingProperties)({ content, searchObj })) !== null && _b !== void 0 ? _b : '' }));
     }).filter(n => !!n.path && !!n.content);
-    log === null || log === void 0 ? void 0 : log(JSON.stringify(allNotesWithPath).replaceAll('${', '\\\$\\\{').replaceAll('}', '\\\}').replaceAll(')', '\\\)'));
+    log === null || log === void 0 ? void 0 : log(JSON.stringify(allNotesWithPath));
     // CONDITION
     const finalArray = replaceAnchor.map((_a) => {
         var _b;
@@ -50,7 +50,7 @@ const handleAnchorsFlow = ({ markdown, template, log, context }) => {
         return (Object.assign(Object.assign({}, props), { content: (_b = (0, handleAnchors_1.handleConditions)({ content, searchObj })) !== null && _b !== void 0 ? _b : '' }));
     }).filter(n => !!n.path && !!n.content);
     log === null || log === void 0 ? void 0 : log('----');
-    log === null || log === void 0 ? void 0 : log(JSON.stringify(finalArray).replaceAll('${', '\\\$\\\{').replaceAll('}', '\\\}').replaceAll(')', '\\\)'));
+    log === null || log === void 0 ? void 0 : log(JSON.stringify(finalArray));
     return finalArray;
 };
 exports.handleAnchorsFlow = handleAnchorsFlow;
