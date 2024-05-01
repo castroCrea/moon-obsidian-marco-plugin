@@ -60,10 +60,10 @@ const getPath = ({ content, searchObj }) => {
     const pathContent = (_a = (content.split('{{END_PATH}}')[0].split('{{PATH}}')[1])) === null || _a === void 0 ? void 0 : _a.trim();
     if (!pathContent)
         return { path: undefined, content };
-    const lines = pathContent.replaceAll('|', '').split('\n');
+    const lines = pathContent.split('\n');
     let notePath;
     for (const line of lines) {
-        notePath = (_b = (0, exports.handleConditions)({ content: line !== null && line !== void 0 ? line : '', searchObj })) === null || _b === void 0 ? void 0 : _b.trim();
+        notePath = (_b = (0, exports.handleConditions)({ content: line !== null && line !== void 0 ? line : '', searchObj })) === null || _b === void 0 ? void 0 : _b.trim().replaceAll('|', '');
         if (notePath)
             break;
     }
