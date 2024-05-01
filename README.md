@@ -5,9 +5,9 @@
 
 # Installation
 
-1. Choose your vault
-2. Choose an empty file that will be your template set up.
-3. Use the following md template as starter
+1. Select your vault.
+2. Choose an empty file that will serve as your template setup.
+3. Use the following markdown template as a starter.
 
 ```md
 {{START_NOTE}}
@@ -36,9 +36,7 @@
 
 ## Explanation
 
-`{{START_NOTE}}` and `{{END_NOTE}}` will be a note entity, all what will be inside a note.
-In between the `{{START_NOTE}}` and `{{END_NOTE}}` you must have a path that is define in order for the note to be created.
-To define a path you can add it between `{{PATH}}` and `{{END_PATH}}`.
+`{{START_NOTE}}` and `{{END_NOTE}}` will define a note entity, encompassing everything that is placed inside. For a note to be created, there must be a pre-defined path within the `{{START_NOTE}}` and `{{END_NOTE}}`. To define this path, it can be inserted between `{{PATH}}` and `{{END_PATH}}`.
 
 Example:
 ```md
@@ -48,14 +46,13 @@ The following text has been capture with Moon Jot : {{CONTENT}}
 {{END_NOTE}}
 ```
 
-`{{CONTENT}` is the content of the Moon jot Launcher at the moment you save.
+`{{CONTENT}` is the content of the Moon Jot Launcher at the moment you save it.
 
-For more option check concept right after
+For more options, check the concept right afterwards.
 
 # Concept
 
-You can map a template that allows you to create your own format of note in Obsidian, base on the data we gather with Moon Jot
-
+You can create a template in Obsidian that allows you to formulate your own note format, based on the data we have gathered with Moon Jot.
 
 # List of the data and anchor for template
 
@@ -63,13 +60,13 @@ You can map a template that allows you to create your own format of note in Obsi
 
 ### Create a note
 
-ALL that is embedded inside will be checked out as a note to be created
+All that is embedded inside will be checked out as a note to be created.
 ```
 {{START_NOTE}}{{END_NOTE}}
 ```
 
 ### Add a path to your note
-You must add a path to the {{START_NOTE}} otherwise your note will be not created
+You must add a path to the `{{START_NOTE}}`; otherwise, your note will not be created.
 ```
 {{PATH}}{{END_PATH}}
 ```
@@ -82,17 +79,18 @@ example:
 /Notes/ideas.md
 {{END_PATH}}
 ```
-If you do that it will check the first if not good take the second if not good the last one.
-If path at the end is empty it will note create the note.
+If you do that, it will check the first one. If it's not good, it will take the second one. 
+If the second one isn't good either, it will take the last one. 
+If the path is empty at the end, it will not create the note.
 
 ## Condition
 
-You can insert content with condition.
-So far condition is only do exist or not exist
+You can insert content based on a condition.
+Currently, the condition only checks if something exists or does not exist.
 ```
 {{IF ...}}Write something{{END_IF ...}}
 
-// example:
+// Example:
 {{PATH}}
 {{IF TITLE}}{{TITLE}}.md{{END_IF TITLE}}
 {{END_PATH}}
@@ -100,33 +98,32 @@ So far condition is only do exist or not exist
 
 ## Date
 
-you can format date like YYYY-MM-DD
-
+You can format the date as YYYY-MM-DD.
 ```
 {{DATE}}YYYY-MM-DD{{END_DATE}}
 
-// example:
+// Example:
 {{PATH}}/Journal/{{DATE}}YYYY-MM-DD{{END_DATE}}.md{{END_PATH}}
 ```
 
 ## Property
 
-There is many properties that you can user
+There are many properties that you can use.
 
 ### Basic for all devices
 
 ```
-{{CONTENT}} // what you wrote inside the text editor
-{{TITLE}}   // the title you add in the text editor on the first line with `# Some title`
+{{CONTENT}} // What you wrote in the text editor.
+{{TITLE}}   // You add the title in the text editor on the first line with # Some title.
 ``` 
 
 ### From the context 
 
 ```
-{{SOURCE.DESCRIPTION}} // the source description
+{{SOURCE.DESCRIPTION}} // The source description.
 
-{{PEOPLE.0.NAME}} // the person captured names (TODO)
-{{PEOPLE.1.NAME}} // the person captured names (TODO)
+{{PEOPLE.0.NAME}} // The person captured names
+{{PEOPLE.1.NAME}} // The person captured names
 ```
 
 # TODO
@@ -150,7 +147,7 @@ r
 # Develop on Moon
 
 
-Moon Jot is base on a plugin system that make easy to develop your own integration and workflows
+Moon Jot is based on a plugin system that makes it easy to develop your own integrations and workflows.
 
 Check the doc here (https://github.com/castroCrea/moon/blob/main/doc/Plugin_Development.md)[https://github.com/castroCrea/moon/blob/main/doc/Plugin_Development.md]
 
