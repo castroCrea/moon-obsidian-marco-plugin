@@ -66,4 +66,24 @@ URL: {{SOURCE.URL}}
     expect(JSON.stringify(result.content)).toEqual("\"{{IF SOURCE.TEXT}}\\ncontent\\n{{IF SOURCE.URL}}\\nURL: {{SOURCE.URL}}\\n{{END_IF SOURCE.URL}}\\n{{END_IF SOURCE.TEXT}}\"")
   })
   
+  it('getPath with condition 4', () => {
+    const content = `
+    {{PATH}}
+    {{IF SOURCE.BOOM}}/1/boom.md{{END_IF SOURCE.BOOM}}
+    {{IF SOURCE.BOOM2}}/URL/{{SOURCE.URL}}.md{{END_IF SOURCE.BOOM2}}
+    /not_condition/Journal.md
+    {{END_PATH}}
+    ---
+    ---
+{{IF SOURCE.TEXT}}
+content
+{{IF SOURCE.URL}}
+URL: {{SOURCE.URL}}
+{{END_IF SOURCE.URL}}
+{{END_IF SOURCE.TEXT}}`
+    const result = getPath({ content, searchObj: {source: {text: 'some text', url: 'https://moonjot.com'}} as SearchObject, log: undefined })
+    expect(result.path).toEqual("/not_condition/Journal.md")
+    expect(JSON.stringify(result.content)).toEqual("\"---\\n    ---\\n{{IF SOURCE.TEXT}}\\ncontent\\n{{IF SOURCE.URL}}\\nURL: {{SOURCE.URL}}\\n{{END_IF SOURCE.URL}}\\n{{END_IF SOURCE.TEXT}}\"")
+  })
+  
 })
