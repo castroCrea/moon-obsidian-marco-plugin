@@ -25,8 +25,8 @@ const handleConditions = ({ content, searchObj }) => {
     const regexIf = /{{IF.*?}}(?:[^{}])*?{{END_IF.*?}}/gm;
     const regexIfStart = /{{IF (.*?)}}/gm;
     const regexIfEnd = /{{END_IF (.*?)}}/gm;
-    const matches = content === null || content === void 0 ? void 0 : content.match(regexIf);
     content = (_a = (0, exports.handleReplacingProperties)({ content, searchObj })) !== null && _a !== void 0 ? _a : '';
+    const matches = content === null || content === void 0 ? void 0 : content.match(regexIf);
     matches === null || matches === void 0 ? void 0 : matches.forEach(value => {
         var _a, _b;
         const ifValue = (_a = value.match(regexIfStart)) === null || _a === void 0 ? void 0 : _a[0];

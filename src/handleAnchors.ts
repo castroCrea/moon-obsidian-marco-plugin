@@ -26,9 +26,8 @@ export const handleConditions = ({ content, searchObj }: { content?: string, sea
   const regexIf = /{{IF.*?}}(?:[^{}])*?{{END_IF.*?}}/gm
   const regexIfStart = /{{IF (.*?)}}/gm
   const regexIfEnd = /{{END_IF (.*?)}}/gm
-  const matches = content?.match(regexIf)
-
   content = handleReplacingProperties({ content, searchObj }) ?? ''
+  const matches = content?.match(regexIf)
 
   matches?.forEach(value => {
     const ifValue = value.match(regexIfStart)?.[0]
