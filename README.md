@@ -224,10 +224,7 @@ There are many properties that you can use.
 # TODO
 r
 - [x] Handle Journaling path
-- [ ] Make journal Path anchor `.obsidian/daily-notes.json` => `folder` (check if really worth it)
 - [x] Make condition with "===" to embed note creation by type of source
-- [ ] Handle person context
-- [ ] Use template from another file like `{{IF SOURCE.TYPE === 'tweet'}{{TEMPLATE='tweet_template.md'}{END_IF SOURCE.TYPE}`
 - [x] Add default template that user can import to start
 - [x] Add a Link to the docs
 - [x] handle task creation if Text editor start with `- [ ]`
@@ -238,6 +235,11 @@ r
     /Notes/.md
     ```
 
+# Idea of improvement
+
+- [ ] Handle person context in loops
+- [ ] Use template from another file like `{{IF SOURCE.TYPE === 'tweet'}{{TEMPLATE='tweet_template.md'}{END_IF SOURCE.TYPE}`
+- [ ] Make journal Path anchor `.obsidian/daily-notes.json` => `folder` (check if really worth it)
 
 # Develop on Moon
 

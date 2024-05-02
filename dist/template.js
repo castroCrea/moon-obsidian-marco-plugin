@@ -97,7 +97,9 @@ exports.DEFAULT_TEMPLATE = `
 
 {{IF TASK}}{{CONTENT}}{{END_IF TASK}}
 ## Notes
+{{IF TASK === undefined }}
 - {{CONTENT}} [{{SOURCE.TITLE}}]({{SOURCE.URL}}) {{IF PEOPLE.0.NAME}}[[/People/{{PEOPLE.0.NAME}}.md]]{{END_IF PEOPLE.0.NAME}}
+{{END_IF TASK}}
 {{END_NOTE}}
 `;
 //# sourceMappingURL=template.js.map

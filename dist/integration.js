@@ -47,9 +47,9 @@ const handleAnchorsFlow = ({ markdown, template, log, context }) => {
     log === null || log === void 0 ? void 0 : log(JSON.stringify(allNotesWithPath));
     // CONDITION
     const finalArray = replaceAnchor.map((_a) => {
-        var _b;
+        var _b, _c;
         var { content } = _a, props = __rest(_a, ["content"]);
-        return (Object.assign(Object.assign({}, props), { content: (_b = (0, handleAnchors_1.handleConditions)({ content, searchObj })) !== null && _b !== void 0 ? _b : '' }));
+        return (Object.assign(Object.assign({}, props), { content: (_c = (_b = (0, handleAnchors_1.handleConditions)({ content, searchObj })) === null || _b === void 0 ? void 0 : _b.trim()) !== null && _c !== void 0 ? _c : '' }));
     });
     log === null || log === void 0 ? void 0 : log('----');
     log === null || log === void 0 ? void 0 : log(JSON.stringify(finalArray));

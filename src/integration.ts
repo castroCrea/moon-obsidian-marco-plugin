@@ -44,7 +44,7 @@ export const handleAnchorsFlow = ({ markdown, template, log, context }: { markdo
   // CONDITION
   const finalArray = replaceAnchor.map<File>(({ content, ...props }) => ({
     ...props,
-    content: handleConditions({ content, searchObj }) ?? ''
+    content: handleConditions({ content, searchObj })?.trim() ?? ''
   }))
 
   log?.('----')
