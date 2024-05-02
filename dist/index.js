@@ -43,7 +43,7 @@ const ENDPOINT = ({ vaultPath }) => ({
 });
 class default_1 extends moon_1.MoonPlugin {
     constructor(props) {
-        var _a, _b, _c;
+        var _a;
         // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
         super(props);
         this.name = 'Obsidian Marco';
@@ -68,10 +68,10 @@ class default_1 extends moon_1.MoonPlugin {
         };
         this.integration = {
             callback: ({ markdown, context }) => __awaiter(this, void 0, void 0, function* () {
-                var _d, _e;
+                var _b, _c;
                 try {
                     if (!this.settings.vaultPath) {
-                        (_d = this.log) === null || _d === void 0 ? void 0 : _d.call(this, 'Error: Is vault path not defined');
+                        (_b = this.log) === null || _b === void 0 ? void 0 : _b.call(this, 'Error: Is vault path not defined');
                         return false;
                     }
                     const files = (0, integration_1.doIntegration)({ markdown, pathToTemplate: this.settings.pathToTemplate, log: this.log, context });
@@ -80,7 +80,7 @@ class default_1 extends moon_1.MoonPlugin {
                     return (0, createFile_1.createFiles)({ files, vaultPath: this.settings.vaultPath });
                 }
                 catch (err) {
-                    (_e = this.log) === null || _e === void 0 ? void 0 : _e.call(this, `Error: ${this.name} => ${err.message}`);
+                    (_c = this.log) === null || _c === void 0 ? void 0 : _c.call(this, `Error: ${this.name} => ${err.message}`);
                     return false;
                 }
             }),
@@ -91,16 +91,23 @@ class default_1 extends moon_1.MoonPlugin {
         if (props.settings)
             this.settings = props.settings;
         this.log = props.helpers.moonLog;
-        (_b = (_a = props.helpers).moonLog) === null || _b === void 0 ? void 0 : _b.call(_a, `THIS IS THE LOG ${JSON.stringify(props.settings)}`);
         this.settingsButtons = [{
                 type: 'button',
                 label: 'Import templates',
-                description: 'Set vault before importing templates',
+                description: 'Set the vault before importing the default templates.',
                 callback: () => {
                     window.open('moonjot://moon-obsidian-marco-plugin/template', '_blank');
                 }
+            },
+            {
+                type: 'button',
+                label: 'Open the template documentation.',
+                description: ' ',
+                callback: () => {
+                    window.open('https://github.com/castroCrea/moon-obsidian-marco-plugin', '_blank');
+                }
             }];
-        this.endpointCallbacks = [ENDPOINT({ vaultPath: (_c = props.settings) === null || _c === void 0 ? void 0 : _c.vaultPath })];
+        this.endpointCallbacks = [ENDPOINT({ vaultPath: (_a = props.settings) === null || _a === void 0 ? void 0 : _a.vaultPath })];
     }
 }
 exports.default = default_1;

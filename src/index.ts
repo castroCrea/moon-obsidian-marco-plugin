@@ -81,13 +81,20 @@ export default class extends MoonPlugin {
     if (!props) return
     if (props.settings) this.settings = props.settings
     this.log = props.helpers.moonLog
-    props.helpers.moonLog?.(`THIS IS THE LOG ${JSON.stringify(props.settings)}`)
     this.settingsButtons = [{
       type: 'button',
       label: 'Import templates',
-      description: 'Set vault before importing templates',
+      description: 'Set the vault before importing the default templates.',
       callback: () => {
         window.open('moonjot://moon-obsidian-marco-plugin/template', '_blank')
+      }
+    },
+    {
+      type: 'button',
+      label: 'Open the template documentation.',
+      description: ' ',
+      callback: () => {
+        window.open('https://github.com/castroCrea/moon-obsidian-marco-plugin', '_blank')
       }
     }]
     this.endpointCallbacks = [ENDPOINT({ vaultPath: props.settings?.vaultPath })]
