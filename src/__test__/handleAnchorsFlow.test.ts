@@ -40,6 +40,8 @@ describe('handleAnchorsFlow', () => {
     expect(result.length).toEqual(2)
     expect(JSON.stringify(result)).toEqual("[{\"path\":\"some content.md\",\"content\":\"---\\n description: a description source\\n\\n\\n---\\n\\n2020-01-01\\n\\n# some content\\n\\n\\n# Clip\\n\"},{\"path\":\"/Journal/2020-01-01.md\",\"content\":\"- # some content []()\"}]")
   })
+
+  
   it('handleAnchorsFlow 2', () => {
     const template = `
 # NOTE WITH TITLE
@@ -102,5 +104,24 @@ describe('handleAnchorsFlow', () => {
       },
       { "content": "", "path": "/People/Henni.md" },
       { "content": "- # some content []()", "path": "/Journal/01 - Daily/2020-01-01.md" }])
+  })
+
+
+  it('handleAnchorsFlow 3', () => {
+    const template = `
+    {{START_NOTE}}
+{{PATH}}/Journal/01 - Daily/{{DATE}}YYYY-MM-DD{{END_DATE}}.md{{END_PATH}}
+## Daily Tasks
+
+{{IF TASK}}{{CONTENT}}{{END_IF TASK}}
+## Notes
+{{IF TASK === undefined }}
+- {{CONTENT}} [{{SOURCE.TITLE}}]({{SOURCE.URL}}) {{IF PEOPLE.0.NAME}}[[/People/{{PEOPLE.0.NAME}}.md]]{{END_IF PEOPLE.0.NAME}}
+{{END_IF TASK}}
+{{END_NOTE}}
+    `
+    const context: Context = { source: { description: 'a description source' }, people: [], keywords: DEFAULT_TOPICS }
+    const result = handleAnchorsFlow({ markdown: '- [ ] some content', template, log: undefined, context })
+    expect(JSON.stringify(result)).toEqual("[{\"path\":\"/Journal/01 - Daily/2020-01-01.md\",\"content\":\"## Daily Tasks\\n\\n- [ ] some content\\n## Notes\\n\"}]")
   })
 })

@@ -20,6 +20,37 @@ const handleReplacingProperties = ({ content, searchObj }) => {
     return content;
 };
 exports.handleReplacingProperties = handleReplacingProperties;
+const comparatorsSetUp = {
+    '=== undefined': {
+        callback: ({ key, searchObj }) => {
+            const values = key.split('=== undefined').map(v => v.trim());
+            const keyValues = (0, searchObject_1.searchObject)({ obj: searchObj, path: values[0].toLowerCase() });
+            return keyValues === undefined ? true : undefined;
+        }
+    },
+    '===': {
+        callback: ({ key, searchObj }) => {
+            const values = key.split('===').map(v => v.trim());
+            const keyValues = values.map(value => { var _a; return (_a = (0, searchObject_1.searchObject)({ obj: searchObj, path: value.toLowerCase() })) !== null && _a !== void 0 ? _a : value; });
+            return keyValues[0] === keyValues[1] ? keyValues[1] : undefined;
+        }
+    },
+    '!==': {
+        callback: ({ key, searchObj }) => {
+            const values = key.split('!==').map(v => v.trim());
+            const keyValues = values.map(value => { var _a; return (_a = (0, searchObject_1.searchObject)({ obj: searchObj, path: value.toLowerCase() })) !== null && _a !== void 0 ? _a : value; });
+            return keyValues[0] !== keyValues[1] ? keyValues[1] : undefined;
+        }
+    },
+    '.includes': {
+        callback: ({ key, searchObj }) => {
+            const values = key.split('.includes(').map(v => v.trim());
+            const checkForMatchValue = values[1].slice(0, -1);
+            const currentValue = (0, searchObject_1.searchObject)({ obj: searchObj, path: values[0].toLowerCase() });
+            return (currentValue === null || currentValue === void 0 ? void 0 : currentValue.includes(checkForMatchValue)) ? checkForMatchValue : undefined;
+        }
+    }
+};
 const handleConditions = ({ content, searchObj }) => {
     var _a, _b;
     const regexIf = /{{IF.*?}}(?:[^{}])*?{{END_IF.*?}}/gm;
@@ -28,18 +59,19 @@ const handleConditions = ({ content, searchObj }) => {
     content = (_a = (0, exports.handleReplacingProperties)({ content, searchObj })) !== null && _a !== void 0 ? _a : '';
     const matches = content === null || content === void 0 ? void 0 : content.match(regexIf);
     matches === null || matches === void 0 ? void 0 : matches.forEach(value => {
-        var _a, _b;
+        var _a, _b, _c;
         const ifValue = (_a = value.match(regexIfStart)) === null || _a === void 0 ? void 0 : _a[0];
         if (!ifValue)
             return;
         const key = (ifValue.replace('{{IF ', '').replace('}}', '')).toLowerCase();
-        const keyValue = (0, searchObject_1.searchObject)({ obj: searchObj, path: key });
+        const comparator = Object.keys(comparatorsSetUp).find(element => key.includes(element));
+        const keyValue = comparator ? (_b = comparatorsSetUp[comparator]) === null || _b === void 0 ? void 0 : _b.callback({ key, searchObj }) : (0, searchObject_1.searchObject)({ obj: searchObj, path: key });
         if (!keyValue) {
             content = content === null || content === void 0 ? void 0 : content.replace(value, '');
         }
         else {
             let valueReplaced = value;
-            const endIfValue = (_b = value.match(regexIfEnd)) === null || _b === void 0 ? void 0 : _b[0];
+            const endIfValue = (_c = value.match(regexIfEnd)) === null || _c === void 0 ? void 0 : _c[0];
             if (ifValue)
                 valueReplaced = valueReplaced === null || valueReplaced === void 0 ? void 0 : valueReplaced.replace(ifValue, '');
             if (endIfValue)

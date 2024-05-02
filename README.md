@@ -173,7 +173,7 @@ Currently, the condition only checks if something exists or does not exist.
 
 #### === undefined
 ```
-{{IF SOURCE.RANDOM === undefined}}content{{END_IF SOURCE.TEXT}}
+{{IF SOURCE.RANDOM === undefined}}content{{END_IF SOURCE.RANDOM}}
 ```
 
 #### === some text

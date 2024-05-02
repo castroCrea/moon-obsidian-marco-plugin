@@ -35,7 +35,7 @@ URL: {{SOURCE.URL}}
     expect(result).toEqual('\n\ncontent\n\n')
    })
 
-  it('handleConditions with equality', () => {
+  it('handleConditions with undefined', () => {
     const content = `{{IF SOURCE.RANDOM === undefined}}content{{END_IF SOURCE.TEXT}}`
     const result = handleConditions({ content, searchObj: { source: { text: 'some text', url: 'https://moonjot.com' } } as SearchObject })
     expect(result).toEqual('content')
@@ -52,7 +52,7 @@ URL: {{SOURCE.URL}}
     const result = handleConditions({ content, searchObj: { source: { text: 'some text', url: 'https://moonjot.com' } } as SearchObject })
     expect(result).toEqual('content different')
   })
-  it('handleConditions with difference', () => {
+  it('handleConditions with includes', () => {
     const content = `{{IF SOURCE.TEXT.includes(some t)}}content{{END_IF SOURCE.TEXT}}{{IF SOURCE.TEXT.includes(some text hey) }}content different{{END_IF SOURCE.TEXT}}`
     const result = handleConditions({ content, searchObj: { source: { text: 'some text', url: 'https://moonjot.com' } } as SearchObject })
     expect(result).toEqual('content')
