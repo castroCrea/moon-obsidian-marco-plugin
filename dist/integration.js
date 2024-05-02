@@ -32,9 +32,11 @@ const handleAnchorsFlow = ({ markdown, template, log, context }) => {
     // eslint-disable-next-line no-template-curly-in-string
     const allNotes = (0, extractText_1.extractAllNotes)({ text: handleDateContent, startAnchor: '{{START_NOTE}}', endAnchor: '{{END_NOTE}}' }).filter((note) => !!note);
     const title = (0, extractTitleFromMarkdown_1.extractTitleFromMarkdown)(markdown);
+    const task = (0, extractTitleFromMarkdown_1.extractTaskFromMarkdown)(markdown);
     const content = markdown;
     const searchObj = Object.assign(Object.assign({}, context), { title,
-        content });
+        content,
+        task });
     const allNotesWithPath = allNotes.map(content => (0, handleAnchors_1.getPath)({ content, log, searchObj })).filter((n) => !!n.path);
     // CONTENT
     const replaceAnchor = allNotesWithPath.map((_a) => {

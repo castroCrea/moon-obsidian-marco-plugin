@@ -6,3 +6,12 @@ export const extractTitleFromMarkdown = (markdown: string) => {
 
   return undefined
 }
+
+export const extractTaskFromMarkdown = (markdown: string) => {
+  const lines = markdown.trim().split('\n')
+  const firstLine = lines[0].trim()
+
+  if (firstLine.startsWith('- [ ]')) return firstLine
+
+  return undefined
+}

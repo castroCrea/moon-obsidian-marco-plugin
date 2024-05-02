@@ -1,6 +1,6 @@
 /* eslint-disable no-useless-escape */
 import { type Context } from '@moonjot/moon'
-import { extractTitleFromMarkdown } from './extractTitleFromMarkdown'
+import { extractTaskFromMarkdown, extractTitleFromMarkdown } from './extractTitleFromMarkdown'
 import fs from 'fs'
 import path from 'path'
 import { type SearchObject, type LOG, type File } from './types'
@@ -21,12 +21,14 @@ export const handleAnchorsFlow = ({ markdown, template, log, context }: { markdo
   const allNotes = extractAllNotes({ text: handleDateContent, startAnchor: '{{START_NOTE}}', endAnchor: '{{END_NOTE}}' }).filter((note): note is string => !!note)
 
   const title = extractTitleFromMarkdown(markdown)
+  const task = extractTaskFromMarkdown(markdown)
   const content = markdown
 
   const searchObj: SearchObject = {
     ...context,
     title,
-    content
+    content,
+    task
   }
 
   const allNotesWithPath = allNotes.map(content => getPath({ content, log, searchObj })).filter((n): n is File => !!n.path)
