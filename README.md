@@ -156,6 +156,8 @@ If the path is empty at the end, it will not create the note.
 
 ## Condition
 
+### Is defined
+
 You can insert content based on a condition.
 Currently, the condition only checks if something exists or does not exist.
 ```
@@ -165,6 +167,28 @@ Currently, the condition only checks if something exists or does not exist.
 {{PATH}}
 {{IF TITLE}}{{TITLE}}.md{{END_IF TITLE}}
 {{END_PATH}}
+```
+
+### You can also do some condition with equality
+
+#### === undefined
+```
+{{IF SOURCE.RANDOM === undefined}}content{{END_IF SOURCE.TEXT}}
+```
+
+#### === some text
+```
+{{IF SOURCE.TEXT === some text}}content{{END_IF SOURCE.TEXT}}
+```
+
+#### !== some text
+```
+{{IF SOURCE.TEXT !== some text}}content{{END_IF SOURCE.TEXT}}{{IF SOURCE.TEXT !== some text hey }}content different{{END_IF SOURCE.TEXT}}
+```
+
+#### .includes(something)
+```
+{{IF SOURCE.TEXT.includes(some t)}}content{{END_IF SOURCE.TEXT}}{{IF SOURCE.TEXT.includes(some text hey) }}content different{{END_IF SOURCE.TEXT}}
 ```
 
 ## Date
@@ -201,7 +225,7 @@ There are many properties that you can use.
 r
 - [x] Handle Journaling path
 - [ ] Make journal Path anchor `.obsidian/daily-notes.json` => `folder` (check if really worth it)
-- [ ] Make condition with "===" to embed note creation by type of source
+- [x] Make condition with "===" to embed note creation by type of source
 - [ ] Handle person context
 - [ ] Use template from another file like `{{IF SOURCE.TYPE === 'tweet'}{{TEMPLATE='tweet_template.md'}{END_IF SOURCE.TYPE}`
 - [x] Add default template that user can import to start

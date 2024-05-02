@@ -22,6 +22,40 @@ export const handleReplacingProperties = ({ content, searchObj }: { content?: st
   return content
 }
 
+interface ComparatorsSetUpProps { key: string, searchObj: SearchObject }
+
+const comparatorsSetUp = {
+  '=== undefined': {
+    callback: ({ key, searchObj }: ComparatorsSetUpProps) => {
+      const values = key.split('=== undefined').map(v => v.trim())
+      const keyValues = searchObject({ obj: searchObj, path: values[0].toLowerCase() })
+      return keyValues === undefined ? true : undefined
+    }
+  },
+  '===': {
+    callback: ({ key, searchObj }: ComparatorsSetUpProps) => {
+      const values = key.split('===').map(v => v.trim())
+      const keyValues = values.map(value => searchObject({ obj: searchObj, path: value.toLowerCase() }) ?? value)
+      return keyValues[0] === keyValues[1] ? keyValues[1] : undefined
+    }
+  },
+  '!==': {
+    callback: ({ key, searchObj }: ComparatorsSetUpProps) => {
+      const values = key.split('!==').map(v => v.trim())
+      const keyValues = values.map(value => searchObject({ obj: searchObj, path: value.toLowerCase() }) ?? value)
+      return keyValues[0] !== keyValues[1] ? keyValues[1] : undefined
+    }
+  },
+  '.includes': {
+    callback: ({ key, searchObj }: ComparatorsSetUpProps) => {
+      const values = key.split('.includes(').map(v => v.trim())
+      const checkForMatchValue = values[1].slice(0, -1)
+      const currentValue = searchObject({ obj: searchObj, path: values[0].toLowerCase() })
+      return currentValue?.includes(checkForMatchValue) ? checkForMatchValue : undefined
+    }
+  }
+}
+
 export const handleConditions = ({ content, searchObj }: { content?: string, searchObj: SearchObject }): string | undefined => {
   const regexIf = /{{IF.*?}}(?:[^{}])*?{{END_IF.*?}}/gm
   const regexIfStart = /{{IF (.*?)}}/gm
@@ -34,7 +68,9 @@ export const handleConditions = ({ content, searchObj }: { content?: string, sea
     if (!ifValue) return
     const key = (ifValue.replace('{{IF ', '').replace('}}', '')).toLowerCase()
 
-    const keyValue = searchObject({ obj: searchObj, path: key })
+    const comparator = (Object.keys(comparatorsSetUp) as Array<keyof typeof comparatorsSetUp>).find(element => key.includes(element))
+
+    const keyValue = comparator ? comparatorsSetUp[comparator]?.callback({ key, searchObj }) : searchObject({ obj: searchObj, path: key })
 
     if (!keyValue) {
       content = content?.replace(value, '')
