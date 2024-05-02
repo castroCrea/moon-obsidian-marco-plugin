@@ -23,9 +23,13 @@ interface SamplePluginSettings extends MoonPluginSettings {
   pathToTemplate: string
 }
 
-const ENDPOINT = ({ vaultPath }: { vaultPath: string }): EndpointCallbackItem => ({
+const ENDPOINT = ({ vaultPath }: { vaultPath?: string }): EndpointCallbackItem => ({
   endpoint: 'moon-obsidian-marco-plugin/template',
   callback: ({ saveSettings, doNotification }) => {
+    if (!vaultPath) {
+      doNotification({ body: 'Please set up vault path first', width: 400 })
+      return
+    }
     const date = new Date()
     const year = date.getFullYear().toString()
     const month = `0${date.getMonth() + 1}`.slice(-2)
@@ -33,7 +37,6 @@ const ENDPOINT = ({ vaultPath }: { vaultPath: string }): EndpointCallbackItem =>
 
     const name = `moon-jot-template-${year}-${month}-${day}`
     const templatePath = `/${name}.md`
-    doNotification({ body: vaultPath, width: 400, url: `obsidian://open?vault=${vaultPath.split('/').pop()}&file=${name}` })
     createFiles({
       files: [{
         content: DEFAULT_TEMPLATE,
@@ -87,7 +90,7 @@ export default class extends MoonPlugin {
         window.open('moonjot://moon-obsidian-marco-plugin/template', '_blank')
       }
     }]
-    this.endpointCallbacks = [ENDPOINT({ vaultPath: props.settings?.vaultPath ?? 'undefined' })]
+    this.endpointCallbacks = [ENDPOINT({ vaultPath: props.settings?.vaultPath })]
   }
 
   integration = {

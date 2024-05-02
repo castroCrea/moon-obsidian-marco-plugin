@@ -20,13 +20,16 @@ const template_1 = require("./template");
 const ENDPOINT = ({ vaultPath }) => ({
     endpoint: 'moon-obsidian-marco-plugin/template',
     callback: ({ saveSettings, doNotification }) => {
+        if (!vaultPath) {
+            doNotification({ body: 'Please set up vault path first', width: 400 });
+            return;
+        }
         const date = new Date();
         const year = date.getFullYear().toString();
         const month = `0${date.getMonth() + 1}`.slice(-2);
         const day = `0${date.getDate()}`.slice(-2);
         const name = `moon-jot-template-${year}-${month}-${day}`;
         const templatePath = `/${name}.md`;
-        doNotification({ body: vaultPath, width: 400, url: `obsidian://open?vault=${vaultPath.split('/').pop()}&file=${name}` });
         (0, createFile_1.createFiles)({
             files: [{
                     content: template_1.DEFAULT_TEMPLATE,
@@ -40,7 +43,7 @@ const ENDPOINT = ({ vaultPath }) => ({
 });
 class default_1 extends moon_1.MoonPlugin {
     constructor(props) {
-        var _a, _b, _c, _d;
+        var _a, _b, _c;
         // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
         super(props);
         this.name = 'Obsidian Marco';
@@ -65,10 +68,10 @@ class default_1 extends moon_1.MoonPlugin {
         };
         this.integration = {
             callback: ({ markdown, context }) => __awaiter(this, void 0, void 0, function* () {
-                var _e, _f;
+                var _d, _e;
                 try {
                     if (!this.settings.vaultPath) {
-                        (_e = this.log) === null || _e === void 0 ? void 0 : _e.call(this, 'Error: Is vault path not defined');
+                        (_d = this.log) === null || _d === void 0 ? void 0 : _d.call(this, 'Error: Is vault path not defined');
                         return false;
                     }
                     const files = (0, integration_1.doIntegration)({ markdown, pathToTemplate: this.settings.pathToTemplate, log: this.log, context });
@@ -77,7 +80,7 @@ class default_1 extends moon_1.MoonPlugin {
                     return (0, createFile_1.createFiles)({ files, vaultPath: this.settings.vaultPath });
                 }
                 catch (err) {
-                    (_f = this.log) === null || _f === void 0 ? void 0 : _f.call(this, `Error: ${this.name} => ${err.message}`);
+                    (_e = this.log) === null || _e === void 0 ? void 0 : _e.call(this, `Error: ${this.name} => ${err.message}`);
                     return false;
                 }
             }),
@@ -97,7 +100,7 @@ class default_1 extends moon_1.MoonPlugin {
                     window.open('moonjot://moon-obsidian-marco-plugin/template', '_blank');
                 }
             }];
-        this.endpointCallbacks = [ENDPOINT({ vaultPath: (_d = (_c = props.settings) === null || _c === void 0 ? void 0 : _c.vaultPath) !== null && _d !== void 0 ? _d : 'undefined' })];
+        this.endpointCallbacks = [ENDPOINT({ vaultPath: (_c = props.settings) === null || _c === void 0 ? void 0 : _c.vaultPath })];
     }
 }
 exports.default = default_1;
