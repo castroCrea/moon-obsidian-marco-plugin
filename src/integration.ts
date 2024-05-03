@@ -39,7 +39,7 @@ export const handleAnchorsFlow = ({ markdown, template, log, context }: { markdo
     content: handleReplacingProperties({ content, searchObj }) ?? ''
   }))
 
-  log?.(JSON.stringify(allNotesWithPath))
+  // log?.(JSON.stringify(allNotesWithPath))
 
   // CONDITION
   const finalArray = replaceAnchor.map<File>(({ content, ...props }) => ({
@@ -47,8 +47,8 @@ export const handleAnchorsFlow = ({ markdown, template, log, context }: { markdo
     content: handleConditions({ content, searchObj })?.trim() ?? ''
   }))
 
-  log?.('----')
-  log?.(JSON.stringify(finalArray))
+  // log?.('----')
+  // log?.(JSON.stringify(finalArray))
 
   return finalArray
 }
