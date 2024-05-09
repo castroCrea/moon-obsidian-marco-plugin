@@ -7,7 +7,7 @@ type StartEndAnchor = {
   endAnchor: '{{END_DATE}}'
 }
 
-export const extractAllNotes = ({
+export const extractContentBetweenAnchors = ({
   text,
   startAnchor,
   endAnchor

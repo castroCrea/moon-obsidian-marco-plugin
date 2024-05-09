@@ -109,7 +109,7 @@ const getPath = ({ content, searchObj }) => {
 exports.getPath = getPath;
 const turnDate = ({ content }) => {
     // eslint-disable-next-line no-template-curly-in-string
-    const datesFormat = (0, extractText_1.extractAllNotes)({ text: content, endAnchor: '{{END_DATE}}', startAnchor: '{{DATE}}' }).filter((date) => !!date);
+    const datesFormat = (0, extractText_1.extractContentBetweenAnchors)({ text: content, endAnchor: '{{END_DATE}}', startAnchor: '{{DATE}}' }).filter((date) => !!date);
     if (!datesFormat.length)
         return content;
     const date = new Date();

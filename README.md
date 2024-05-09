@@ -105,7 +105,7 @@
 {{END_NOTE}}
 ```
 
-## Explanation
+## Description
 
 `{{START_NOTE}}` and `{{END_NOTE}}` will define a note entity, encompassing everything that is placed inside. For a note to be created, there must be a pre-defined path within the `{{START_NOTE}}` and `{{END_NOTE}}`. To define this path, it can be inserted between `{{PATH}}` and `{{END_PATH}}`.
 

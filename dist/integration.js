@@ -30,7 +30,7 @@ exports.doIntegration = doIntegration;
 const handleAnchorsFlow = ({ markdown, template, log, context }) => {
     const handleDateContent = (0, handleAnchors_1.turnDate)({ content: template });
     // eslint-disable-next-line no-template-curly-in-string
-    const allNotes = (0, extractText_1.extractAllNotes)({ text: handleDateContent, startAnchor: '{{START_NOTE}}', endAnchor: '{{END_NOTE}}' }).filter((note) => !!note);
+    const allNotes = (0, extractText_1.extractContentBetweenAnchors)({ text: handleDateContent, startAnchor: '{{START_NOTE}}', endAnchor: '{{END_NOTE}}' }).filter((note) => !!note);
     const title = (0, extractTitleFromMarkdown_1.extractTitleFromMarkdown)(markdown);
     const task = (0, extractTitleFromMarkdown_1.extractTaskFromMarkdown)(markdown);
     const content = markdown;

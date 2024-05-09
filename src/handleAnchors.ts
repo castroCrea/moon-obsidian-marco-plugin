@@ -1,6 +1,6 @@
 import { type SearchObject, type LOG } from './types'
 import { searchObject } from './searchObject'
-import { extractAllNotes } from './extractText'
+import { extractContentBetweenAnchors } from './extractText'
 
 export const handleReplacingProperties = ({ content, searchObj }: { content?: string, searchObj: SearchObject }) => {
   const regex = /{{((\S)*?)}}/gm
@@ -116,7 +116,7 @@ export const getPath = ({ content, searchObj }: { content: string, log: LOG, sea
 
 export const turnDate = ({ content }: { content: string }): string => {
   // eslint-disable-next-line no-template-curly-in-string
-  const datesFormat = extractAllNotes({ text: content, endAnchor: '{{END_DATE}}', startAnchor: '{{DATE}}' }).filter((date): date is string => !!date)
+  const datesFormat = extractContentBetweenAnchors({ text: content, endAnchor: '{{END_DATE}}', startAnchor: '{{DATE}}' }).filter((date): date is string => !!date)
 
   if (!datesFormat.length) return content
 

@@ -5,7 +5,7 @@ type StartEndAnchor = {
     startAnchor: '{{DATE}}';
     endAnchor: '{{END_DATE}}';
 };
-export declare const extractAllNotes: ({ text, startAnchor, endAnchor }: {
+export declare const extractContentBetweenAnchors: ({ text, startAnchor, endAnchor }: {
     text: string;
 } & StartEndAnchor) => (string | undefined)[];
 export {};
