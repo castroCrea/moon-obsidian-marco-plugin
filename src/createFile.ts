@@ -9,7 +9,7 @@ export const mergeIfFileExist = (filePath: string, content: string) => {
     const existingContent: string = fs.readFileSync(filePath, 'utf8')
     const mergedContent = mergeMarkdownFiles({ originalContent: existingContent, newContent: content })
 
-    fs.writeFileSync(filePath, mergedContent as string)
+    fs.writeFileSync(filePath, mergedContent)
   } else {
     // File doesn't exist, create it
     fs.writeFileSync(filePath, content)
