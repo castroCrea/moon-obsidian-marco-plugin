@@ -1,11 +1,9 @@
 /* eslint-disable no-useless-escape */
 import { type Context } from '@moonjot/moon'
-import { extractTaskFromMarkdown, extractTitleFromMarkdown } from './extractTitleFromMarkdown'
+import { extractTaskFromMarkdown, extractTitleFromMarkdown, extractContentBetweenAnchors, getPath, handleConditions, handleReplacingProperties, turnDate } from '@moonjot/moon-utils'
 import fs from 'fs'
 import path from 'path'
 import { type SearchObject, type LOG, type File } from './types'
-import { extractContentBetweenAnchors } from './extractText'
-import { getPath, handleConditions, handleReplacingProperties, turnDate } from './handleAnchors'
 
 export const doIntegration = ({ markdown, pathToTemplate, log, context }: { markdown: string, pathToTemplate?: string, log: LOG, context: Context }): File[] => {
   if (!pathToTemplate) return []

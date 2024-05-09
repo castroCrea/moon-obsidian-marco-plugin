@@ -4,14 +4,14 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.createFiles = exports.createDirectory = exports.mergeIfFileExist = void 0;
-const mergeMarkdown_1 = require("./mergeMarkdown");
+const moon_utils_1 = require("@moonjot/moon-utils");
 const fs_1 = __importDefault(require("fs"));
 const path_1 = __importDefault(require("path"));
 const mergeIfFileExist = (filePath, content) => {
     if (fs_1.default.existsSync(filePath)) {
         // File exists, merge the content
         const existingContent = fs_1.default.readFileSync(filePath, 'utf8');
-        const mergedContent = (0, mergeMarkdown_1.mergeMarkdownFiles)(existingContent, content);
+        const mergedContent = (0, moon_utils_1.mergeMarkdownFiles)({ originalContent: existingContent, newContent: content });
         fs_1.default.writeFileSync(filePath, mergedContent);
     }
     else {

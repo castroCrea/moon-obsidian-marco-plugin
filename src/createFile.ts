@@ -1,4 +1,4 @@
-import { mergeMarkdownFiles } from './mergeMarkdown'
+import { mergeMarkdownFiles } from '@moonjot/moon-utils'
 import { type File } from './types'
 import fs from 'fs'
 import path from 'path'
@@ -7,9 +7,9 @@ export const mergeIfFileExist = (filePath: string, content: string) => {
   if (fs.existsSync(filePath)) {
     // File exists, merge the content
     const existingContent: string = fs.readFileSync(filePath, 'utf8')
-    const mergedContent = mergeMarkdownFiles(existingContent, content)
+    const mergedContent = mergeMarkdownFiles({ originalContent: existingContent, newContent: content })
 
-    fs.writeFileSync(filePath, mergedContent)
+    fs.writeFileSync(filePath, mergedContent as string)
   } else {
     // File doesn't exist, create it
     fs.writeFileSync(filePath, content)
