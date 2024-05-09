@@ -53,7 +53,10 @@ const comparatorsSetUp = {
 };
 const handleConditions = ({ content, searchObj }) => {
     var _a, _b;
-    const regexIf = /{{IF.*?}}(?:[^{}])*?{{END_IF.*?}}/gm;
+    const regexIf = /{{IF([^{}]*)}}((?:(?!{{(?:IF|END_IF).*}})[\s\S])*){{END_IF[^{}]*}}/gm;
+    // const regexIf = /{{IF.*?}}(?:[^{}])*?{{END_IF.*?}}/gm NOT WORKING BUT HERE FOR DOC
+    // const regexIf =  /(\n{|{){IF.*?}}((?!{{).*){{END_IF.*?}(}|}\n)/gm  NOT WORKING BUT HERE FOR DOC
+    // const regexIf = /(\n{|{){IF.*?}}((?!{{)(\s|\S)*){{END_IF.*?}(}|}\n)/gm NOT WORKING BUT HERE FOR DOC
     const regexIfStart = /{{IF (.*?)}}/gm;
     const regexIfEnd = /{{END_IF (.*?)}}/gm;
     content = (_a = (0, exports.handleReplacingProperties)({ content, searchObj })) !== null && _a !== void 0 ? _a : '';
@@ -67,15 +70,15 @@ const handleConditions = ({ content, searchObj }) => {
         const comparator = Object.keys(comparatorsSetUp).find(element => key.includes(element));
         const keyValue = comparator ? (_b = comparatorsSetUp[comparator]) === null || _b === void 0 ? void 0 : _b.callback({ key, searchObj }) : (0, searchObject_1.searchObject)({ obj: searchObj, path: key });
         if (!keyValue) {
-            content = content === null || content === void 0 ? void 0 : content.replace(value, '');
+            content = content === null || content === void 0 ? void 0 : content.replace(value, '').trim();
         }
         else {
             let valueReplaced = value;
             const endIfValue = (_c = value.match(regexIfEnd)) === null || _c === void 0 ? void 0 : _c[0];
             if (ifValue)
-                valueReplaced = valueReplaced === null || valueReplaced === void 0 ? void 0 : valueReplaced.replace(ifValue, '');
+                valueReplaced = valueReplaced === null || valueReplaced === void 0 ? void 0 : valueReplaced.replace(ifValue, '').trim();
             if (endIfValue)
-                valueReplaced = valueReplaced === null || valueReplaced === void 0 ? void 0 : valueReplaced.replace(endIfValue, '');
+                valueReplaced = valueReplaced === null || valueReplaced === void 0 ? void 0 : valueReplaced.replace(endIfValue, '').trim();
             content = content === null || content === void 0 ? void 0 : content.replace(value, valueReplaced);
         }
     });
@@ -113,8 +116,11 @@ const turnDate = ({ content }) => {
     const year = date.getFullYear().toString();
     const month = `0${date.getMonth() + 1}`.slice(-2);
     const day = `0${date.getDate()}`.slice(-2);
+    const hour = `0${date.getHours()}`.slice(-2);
+    const minute = `0${date.getMinutes()}`.slice(-2);
+    const second = `0${date.getSeconds()}`.slice(-2);
     datesFormat.forEach((dateFormat) => {
-        const dateFormatted = dateFormat.replace('YYYY', year).replace('MM', month).replace('DD', day);
+        const dateFormatted = dateFormat.replaceAll('YYYY', year).replaceAll('MM', month).replaceAll('DD', day).replaceAll('HH', hour).replaceAll('mm', minute).replaceAll('ss', second);
         const regexRemoveDate = new RegExp(`{{DATE}}${dateFormat}{{END_DATE}}`, 'gm');
         content = content.replace(regexRemoveDate, dateFormatted);
     });

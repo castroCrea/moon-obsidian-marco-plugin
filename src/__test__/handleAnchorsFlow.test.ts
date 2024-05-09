@@ -1,5 +1,6 @@
 import { DEFAULT_TOPICS, type Context } from '@moonjot/moon'
 import { handleAnchorsFlow } from '../integration'
+import { DEFAULT_TEMPLATE } from '../template'
 
 jest
   .useFakeTimers()
@@ -38,7 +39,7 @@ describe('handleAnchorsFlow', () => {
     const context: Context = { source: { description: 'a description source' }, people: [], keywords: DEFAULT_TOPICS }
     const result = handleAnchorsFlow({ markdown: '# some content', template, log: undefined, context })
     expect(result.length).toEqual(2)
-    expect(JSON.stringify(result)).toEqual("[{\"path\":\"some content.md\",\"content\":\"---\\n description: a description source\\n\\n\\n---\\n\\n2020-01-01\\n\\n# some content\\n\\n\\n# Clip\\n\"},{\"path\":\"/Journal/2020-01-01.md\",\"content\":\"- # some content []()\"}]")
+    expect(JSON.stringify(result)).toEqual("[{\"path\":\"some content.md\",\"content\":\"---\\ndescription: a description source\\n\\n\\n---\\n\\n2020-01-01\\n\\n# some content\\n\\n\\n# Clip\"},{\"path\":\"/Journal/2020-01-01.md\",\"content\":\"- # some content []()\"}]")
   })
 
   
@@ -95,9 +96,9 @@ describe('handleAnchorsFlow', () => {
     expect(result).toEqual([
       {
         "content": `---
- description: a description source 
+description: a description source
 
- author : Henni 
+author : Henni
 ---
 # some content`,
         "path": "/Notes/some content.md"
@@ -122,6 +123,22 @@ describe('handleAnchorsFlow', () => {
     `
     const context: Context = { source: { description: 'a description source' }, people: [], keywords: DEFAULT_TOPICS }
     const result = handleAnchorsFlow({ markdown: '- [ ] some content', template, log: undefined, context })
-    expect(JSON.stringify(result)).toEqual("[{\"path\":\"/Journal/01 - Daily/2020-01-01.md\",\"content\":\"## Daily Tasks\\n\\n- [ ] some content\\n## Notes\\n\"}]")
+    expect(JSON.stringify(result)).toEqual("[{\"path\":\"/Journal/01 - Daily/2020-01-01.md\",\"content\":\"## Daily Tasks\\n\\n- [ ] some content\\n## Notes\"}]")
+  })
+
+  it('handleAnchorsFlow DEFAULT_TEMPLATE', () => {
+    const context: Context = {"source":{"url":"file:///System/Applications/Utilities/Console.app/","title":"moon.log","appName":"Console"},"people":[],"keywords":{"organizations":[],"places":[],"people":[],"collections":[],"hashTags":[],"subject":[],"emails":[],"atMentions":[],"urls":[],"phoneNumbers":[],"acronyms":[],"quotations":[]},"other":{},"clipContent":false,"isFinished":true}
+    const result = handleAnchorsFlow({ "markdown":"# sdsdsdsd\n\ndsdsdsdssd", template: DEFAULT_TEMPLATE, log: undefined, context })
+    expect(JSON.stringify(result[0])).toEqual('{\"path\":\"/Notes/sdsdsdsd.md\",\"content\":\"---\\n\\n\\nURL: file:///System/Applications/Utilities/Console.app/\\n\\n\\n---\\n\\n# sdsdsdsd\\n\\ndsdsdsdssd\"}')
+    expect(JSON.stringify(result[1])).toEqual('{\"path\":\"/Journal/01 - Daily/2020-01-01.md\",\"content\":\"## Daily Tasks\\n\\n\\n## Notes\\n\\n- 01:00: # sdsdsdsd\\n\\ndsdsdsdssd\\n- [moon.log](file:///System/Applications/Utilities/Console.app/)\"}')
+    expect(result.length).toEqual(2)
+  })
+
+  it('handleAnchorsFlow DEFAULT_TEMPLATE twitter profile', () => {
+    const context: Context = {"source":{},"people":[{"about":"x3 founder | Building https://t.co/HRa2IAZT8U | Engineer building science-backed products | Sharing the lessons I learned to achieve x2 in 50% less efforts ✨","location":["Building →"],"name":"Pierro 🧠✨","picture":"https://pbs.twimg.com/profile_images/1787730613543243776/IzCirSK6_400x400.jpg","twitter":["https://twitter.com/pierremouchan"],"website":["https://t.co/HRa2IAZT8U","http://obsibrain.com"]}],"keywords":{"organizations":[],"places":[],"people":[],"collections":[],"hashTags":[],"subject":[],"emails":[],"atMentions":[],"urls":[],"phoneNumbers":[],"acronyms":[],"quotations":[]},"other":{},"clipContent":false,"isFinished":true}
+    const result = handleAnchorsFlow({ "markdown":"", template: DEFAULT_TEMPLATE, log: undefined, context })
+    expect(JSON.stringify(result[0])).toEqual('{\"path\":\"/People/Pierro 🧠✨.md\",\"content\":\"---\\npicture: https://pbs.twimg.com/profile_images/1787730613543243776/IzCirSK6_400x400.jpg\\n\\n\\nabout: x3 founder | Building https://t.co/HRa2IAZT8U | Engineer building science-backed products | Sharing the lessons I learned to achieve x2 in 50% less efforts ✨\\n\\ntwitter: [\\\"https://twitter.com/pierremouchan\\\"]\\n\\n\\n\\n\\n\\n\\nwebsite: [\\\"https://t.co/HRa2IAZT8U\\\",\\\"http://obsibrain.com\\\"]\\n\\n\\n---\"}')
+    expect(JSON.stringify(result[1])).toEqual('{\"path\":\"/Journal/01 - Daily/2020-01-01.md\",\"content\":\"## Daily Tasks\\n\\n\\n## Notes\\n\\n- [[/People/Pierro 🧠✨.md]]\"}')
+    expect(result.length).toEqual(2)
   })
 })

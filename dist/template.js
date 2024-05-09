@@ -24,10 +24,7 @@ exports.DEFAULT_TEMPLATE = `
 {{IF PEOPLE.3.NAME}}  - {{PEOPLE.3.NAME}}{{END_IF PEOPLE.3.NAME}}
 {{END_IF PEOPLE.0.NAME}}
 ---
-{{IF SOURCE.TEXT}}
-{{IF SOURCE.TITLE}}Source: [[/Sources/{{SOURCE.TITLE}}.md]] {{END_IF SOURCE.TITLE}}
-{{END_IF SOURCE.TEXT}}
-
+{{IF SOURCE.TEXT}}{{IF SOURCE.TITLE}}Source: [[/Sources/{{SOURCE.TITLE}}.md]] {{END_IF SOURCE.TITLE}}{{END_IF SOURCE.TEXT}}
 {{CONTENT}}
 
 {{END_NOTE}}
@@ -109,9 +106,19 @@ exports.DEFAULT_TEMPLATE = `
 
 {{IF TASK}}{{CONTENT}}{{END_IF TASK}}
 ## Notes
+
 {{IF TASK === undefined }}
-- {{CONTENT}} [{{SOURCE.TITLE}}]({{SOURCE.URL}}) {{IF PEOPLE.0.NAME}}[[/People/{{PEOPLE.0.NAME}}.md]]{{END_IF PEOPLE.0.NAME}}
+{{IF PEOPLE.0.NAME}}
+- [[/People/{{PEOPLE.0.NAME}}.md]] 
+{{END_IF PEOPLE.0.NAME}}
+{{IF CONTENT}}
+- {{DATE}}HH:mm{{END_DATE}}: {{CONTENT}}
+{{END_IF CONTENT}}
+{{IF SOURCE.URL}}
+- [{{SOURCE.TITLE}}]({{SOURCE.URL}}) 
+{{END_IF SOURCE.URL}}
 {{END_IF TASK}}
 {{END_NOTE}}
+
 `;
 //# sourceMappingURL=template.js.map

@@ -193,9 +193,10 @@ Currently, the condition only checks if something exists or does not exist.
 
 ## Date
 
-You can format the date as YYYY-MM-DD.
+You can format the date as YYYY-MM-DD HH:mm:ss.
 ```
 {{DATE}}YYYY-MM-DD{{END_DATE}}
+{{DATE}}HH:mm{{END_DATE}}
 
 // Example:
 {{PATH}}/Journal/{{DATE}}YYYY-MM-DD{{END_DATE}}.md{{END_PATH}}

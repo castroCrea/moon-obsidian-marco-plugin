@@ -57,10 +57,14 @@ const comparatorsSetUp = {
 }
 
 export const handleConditions = ({ content, searchObj }: { content?: string, searchObj: SearchObject }): string | undefined => {
-  const regexIf = /{{IF.*?}}(?:[^{}])*?{{END_IF.*?}}/gm
+  const regexIf = /{{IF([^{}]*)}}((?:(?!{{(?:IF|END_IF).*}})[\s\S])*){{END_IF[^{}]*}}/gm
+  // const regexIf = /{{IF.*?}}(?:[^{}])*?{{END_IF.*?}}/gm NOT WORKING BUT HERE FOR DOC
+  // const regexIf =  /(\n{|{){IF.*?}}((?!{{).*){{END_IF.*?}(}|}\n)/gm  NOT WORKING BUT HERE FOR DOC
+  // const regexIf = /(\n{|{){IF.*?}}((?!{{)(\s|\S)*){{END_IF.*?}(}|}\n)/gm NOT WORKING BUT HERE FOR DOC
   const regexIfStart = /{{IF (.*?)}}/gm
   const regexIfEnd = /{{END_IF (.*?)}}/gm
   content = handleReplacingProperties({ content, searchObj }) ?? ''
+
   const matches = content?.match(regexIf)
 
   matches?.forEach(value => {
@@ -73,12 +77,12 @@ export const handleConditions = ({ content, searchObj }: { content?: string, sea
     const keyValue = comparator ? comparatorsSetUp[comparator]?.callback({ key, searchObj }) : searchObject({ obj: searchObj, path: key })
 
     if (!keyValue) {
-      content = content?.replace(value, '')
+      content = content?.replace(value, '').trim()
     } else {
       let valueReplaced = value
       const endIfValue = value.match(regexIfEnd)?.[0]
-      if (ifValue) valueReplaced = valueReplaced?.replace(ifValue, '')
-      if (endIfValue) valueReplaced = valueReplaced?.replace(endIfValue, '')
+      if (ifValue) valueReplaced = valueReplaced?.replace(ifValue, '').trim()
+      if (endIfValue) valueReplaced = valueReplaced?.replace(endIfValue, '').trim()
       content = content?.replace(value, valueReplaced)
     }
   })
@@ -120,9 +124,12 @@ export const turnDate = ({ content }: { content: string }): string => {
   const year = date.getFullYear().toString()
   const month = `0${date.getMonth() + 1}`.slice(-2)
   const day = `0${date.getDate()}`.slice(-2)
+  const hour = `0${date.getHours()}`.slice(-2)
+  const minute = `0${date.getMinutes()}`.slice(-2)
+  const second = `0${date.getSeconds()}`.slice(-2)
 
   datesFormat.forEach((dateFormat) => {
-    const dateFormatted = dateFormat.replace('YYYY', year).replace('MM', month).replace('DD', day)
+    const dateFormatted = dateFormat.replaceAll('YYYY', year).replaceAll('MM', month).replaceAll('DD', day).replaceAll('HH', hour).replaceAll('mm', minute).replaceAll('ss', second)
     const regexRemoveDate = new RegExp(`{{DATE}}${dateFormat}{{END_DATE}}`, 'gm')
 
     content = content.replace(regexRemoveDate, dateFormatted)
