@@ -223,7 +223,7 @@ There are many properties that you can use.
 ```
 
 # TODO
-r
+
 - [x] Handle Journaling path
 - [x] Make condition with "===" to embed note creation by type of source
 - [x] Add default template that user can import to start
