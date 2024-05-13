@@ -179,6 +179,9 @@ Currently, the condition only checks if something exists or does not exist.
 #### === some text
 ```
 {{IF SOURCE.TEXT === some text}}content{{END_IF SOURCE.TEXT}}
+
+// content is empty make only twitter user
+{{IF content === }}{{IF people.0.twitter.0}}<a href="{{people.0.twitter.0}}">{{people.0.name}}</a>{{END_IF people.0.name}}{{END_IF content}}
 ```
 
 #### !== some text
@@ -189,6 +192,11 @@ Currently, the condition only checks if something exists or does not exist.
 #### .includes(something)
 ```
 {{IF SOURCE.TEXT.includes(some t)}}content{{END_IF SOURCE.TEXT}}{{IF SOURCE.TEXT.includes(some text hey) }}content different{{END_IF SOURCE.TEXT}}
+```
+
+#### .startsWith(something)
+```
+{{IF SOURCE.TEXT.startsWith(- [ ])}}content{{END_IF SOURCE.TEXT}}
 ```
 
 ## Date
