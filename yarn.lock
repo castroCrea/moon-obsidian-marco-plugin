@@ -1294,17 +1294,17 @@
     "@jridgewell/resolve-uri" "^3.1.0"
     "@jridgewell/sourcemap-codec" "^1.4.14"
 
-"@moonjot/moon-utils@^0.0.2":
-  version "0.0.2"
-  resolved "https://registry.yarnpkg.com/@moonjot/moon-utils/-/moon-utils-0.0.2.tgz#cd551aa7d13eb28ed2f252e22aacf86a3f07441f"
-  integrity sha512-ht7Y0Cfhyab6SDofa5yzM3dK66Wc82jyf+LTXHkSAds0Gdvx6EmvJKV2HJYP6MMIQm5PXk5kEOcmHTWQBV1lqg==
+"@moonjot/moon-utils@^0.0.3":
+  version "0.0.3"
+  resolved "https://registry.yarnpkg.com/@moonjot/moon-utils/-/moon-utils-0.0.3.tgz#ebde26d23fc618a4b57964b92701ec6179496195"
+  integrity sha512-ZA4yHuE2212BHjyTeI44RNAwTbYuba8rxrabRT9UgKsZakNW5wetWNv8mkXSSUv1301PvA80ROU6IjcmORPsfQ==
   dependencies:
     js-yaml "^4.1.0"
 
-"@moonjot/moon@^0.1.67":
-  version "0.1.67"
-  resolved "https://registry.yarnpkg.com/@moonjot/moon/-/moon-0.1.67.tgz#5f7fcfa479782b57191c8c9bbc5090c91f415840"
-  integrity sha512-WvtbBt3yonSQDxk8dDWO5a0yL2dNWlVLUnPVmWpbmqSm5MCzJHAyDHpt7Co+n2gnhjIvWj4TpgDEuTp2rPfhoQ==
+"@moonjot/moon@^0.1.72":
+  version "0.1.72"
+  resolved "https://registry.yarnpkg.com/@moonjot/moon/-/moon-0.1.72.tgz#910cc326d17c6378065176497efb2ecb335a8815"
+  integrity sha512-76I/LfFShpL4lhqVqm7Y6ZjoUFhNSoeB9jK+2PU7GlwNiv2x+L6CgVcW76zmfVeCKv4g361Z3ZFbsSBkPkyKgA==
 
 "@nodelib/fs.scandir@2.1.5":
   version "2.1.5"
