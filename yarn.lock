@@ -1294,10 +1294,10 @@
     "@jridgewell/resolve-uri" "^3.1.0"
     "@jridgewell/sourcemap-codec" "^1.4.14"
 
-"@moonjot/moon-utils@^0.0.3":
-  version "0.0.3"
-  resolved "https://registry.yarnpkg.com/@moonjot/moon-utils/-/moon-utils-0.0.3.tgz#ebde26d23fc618a4b57964b92701ec6179496195"
-  integrity sha512-ZA4yHuE2212BHjyTeI44RNAwTbYuba8rxrabRT9UgKsZakNW5wetWNv8mkXSSUv1301PvA80ROU6IjcmORPsfQ==
+"@moonjot/moon-utils@^0.0.4":
+  version "0.0.4"
+  resolved "https://registry.yarnpkg.com/@moonjot/moon-utils/-/moon-utils-0.0.4.tgz#9ed6ec69717f851f77eda68648e108eb27a20eb2"
+  integrity sha512-jVZ5u81aACLUP+GRrQRfxYty/wBXQUC6888irNK12Qu+iUbJKbb/mYvLTVx2vYTqd4qs+4Ycm4jHxBdrWQnZsQ==
   dependencies:
     js-yaml "^4.1.0"
 
