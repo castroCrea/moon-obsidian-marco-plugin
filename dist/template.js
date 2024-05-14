@@ -107,17 +107,22 @@ exports.DEFAULT_TEMPLATE = `
 {{IF TASK}}{{CONTENT}}{{END_IF TASK}}
 ## Notes
 
+{{IF TITLE}}
+- {{DATE}}HH:mm:ss{{END_DATE}}: [[/Notes/{{TITLE}}.md]]
+{{END_IF TITLE}}
 {{IF TASK === undefined }}
+{{IF TITLE === undefined }}
 {{IF PEOPLE.0.NAME}}
 - [[/People/{{PEOPLE.0.NAME}}.md]] 
 {{END_IF PEOPLE.0.NAME}}
 {{IF CONTENT}}
-- {{DATE}}HH:mm{{END_DATE}}: {{CONTENT}}
+- {{DATE}}HH:mm:ss{{END_DATE}}: {{CONTENT}}
 {{END_IF CONTENT}}
 {{IF SOURCE.URL}}
 - [{{SOURCE.TITLE}}]({{SOURCE.URL}}) 
 {{END_IF SOURCE.URL}}
 {{END_IF TASK}}
+{{END_IF TITLE}}
 {{END_NOTE}}
 
 `;
