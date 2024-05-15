@@ -47,7 +47,7 @@ class default_1 extends moon_1.MoonPlugin {
         // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
         super(props);
         this.name = 'Obsidian';
-        this.logo = 'https://www.mindstoneconsulting.net/content/images/size/w300/2024/04/Logo-500x500-1.png';
+        this.logo = 'https://upload.wikimedia.org/wikipedia/commons/1/10/2023_Obsidian_logo.svg';
         this.settingsDescription = {
             vaultPath: {
                 type: 'path',
@@ -84,7 +84,7 @@ class default_1 extends moon_1.MoonPlugin {
                     return false;
                 }
             }),
-            buttonIconUrl: 'https://www.mindstoneconsulting.net/content/images/size/w300/2024/04/Logo-500x500-1.png'
+            buttonIconUrl: 'https://upload.wikimedia.org/wikipedia/commons/1/10/2023_Obsidian_logo.svg'
         };
         if (!props)
             return;
