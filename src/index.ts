@@ -50,7 +50,7 @@ const ENDPOINT = ({ vaultPath }: { vaultPath?: string }): EndpointCallbackItem =
 })
 
 export default class extends MoonPlugin {
-  name: string = 'Obsidian Marco'
+  name: string = 'Obsidian'
   logo: string = 'https://www.mindstoneconsulting.net/content/images/size/w300/2024/04/Logo-500x500-1.png'
 
   settingsDescription: SamplePluginSettingsDescription = {

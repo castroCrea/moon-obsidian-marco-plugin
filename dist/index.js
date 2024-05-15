@@ -46,7 +46,7 @@ class default_1 extends moon_1.MoonPlugin {
         var _a;
         // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
         super(props);
-        this.name = 'Obsidian Marco';
+        this.name = 'Obsidian';
         this.logo = 'https://www.mindstoneconsulting.net/content/images/size/w300/2024/04/Logo-500x500-1.png';
         this.settingsDescription = {
             vaultPath: {
