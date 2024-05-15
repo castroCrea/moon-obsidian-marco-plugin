@@ -51,7 +51,7 @@ const ENDPOINT = ({ vaultPath }: { vaultPath?: string }): EndpointCallbackItem =
 
 export default class extends MoonPlugin {
   name: string = 'Obsidian'
-  logo: string = 'https://www.mindstoneconsulting.net/content/images/size/w300/2024/04/Logo-500x500-1.png'
+  logo: string = 'https://upload.wikimedia.org/wikipedia/commons/1/10/2023_Obsidian_logo.svg'
 
   settingsDescription: SamplePluginSettingsDescription = {
     vaultPath: {
@@ -123,6 +123,6 @@ export default class extends MoonPlugin {
         return false
       }
     },
-    buttonIconUrl: 'https://www.mindstoneconsulting.net/content/images/size/w300/2024/04/Logo-500x500-1.png'
+    buttonIconUrl: 'https://upload.wikimedia.org/wikipedia/commons/1/10/2023_Obsidian_logo.svg'
   }
 }
