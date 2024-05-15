@@ -31,7 +31,7 @@ const handleAnchorsFlow = ({ markdown, template, log, context }) => {
     const allNotes = (0, moon_utils_1.extractContentBetweenAnchors)({ text: handleDateContent, startAnchor: '{{START_NOTE}}', endAnchor: '{{END_NOTE}}' }).filter((note) => !!note);
     const title = (0, moon_utils_1.extractTitleFromMarkdown)(markdown);
     const task = (0, moon_utils_1.extractTaskFromMarkdown)(markdown);
-    const content = markdown;
+    const content = title ? markdown.split('\n').slice(1).join('\n') : markdown;
     const searchObj = Object.assign(Object.assign({}, context), { title,
         content,
         task });

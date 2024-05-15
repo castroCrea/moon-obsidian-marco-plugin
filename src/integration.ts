@@ -20,7 +20,7 @@ export const handleAnchorsFlow = ({ markdown, template, log, context }: { markdo
 
   const title = extractTitleFromMarkdown(markdown)
   const task = extractTaskFromMarkdown(markdown)
-  const content = markdown
+  const content = title ? markdown.split('\n').slice(1).join('\n') : markdown
 
   const searchObj: SearchObject = {
     ...context,
