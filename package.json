@@ -1,6 +1,6 @@
 {
   "name": "@moonjot/moon-obsidian-marco-plugin",
-  "version": "0.1.7",
+  "version": "0.1.8",
   "description": "Moon Jot Obsidian Integration Inspired by Marco Serafini",
   "main": "./dist/index.js",
   "dependencies": {
