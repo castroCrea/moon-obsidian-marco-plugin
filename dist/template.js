@@ -6,6 +6,7 @@ exports.DEFAULT_TEMPLATE = `
 
 {{START_NOTE}}
 {{PATH}}
+{{IF pluginPlayground.obsidian.notePath}}{{pluginPlayground.obsidian.notePath}}/{{TITLE}}.md {{END_IF pluginPlayground.obsidian.notePath}}
 {{IF TITLE}}/Notes/{{TITLE}}.md {{END_IF TITLE}}
 {{END_PATH}}
 ---
