@@ -14,14 +14,14 @@ function generateRandomId() {
 }
 // 30px per lines
 const handleCanvas = ({ filePath, content }) => {
-    var _a, _b;
+    var _a, _b, _c;
     const canvasContentString = fs_1.default.existsSync(filePath) ? fs_1.default.readFileSync(filePath, 'utf8') : '{}';
     const canvas = JSON.parse(canvasContentString);
     const height = content.split('\n').length * 30;
     const width = (((_a = content.split('\n').map(line => line.length).sort((a, b) => b - a)[0]) !== null && _a !== void 0 ? _a : 1) * 4) + 50;
     const y = (_b = canvas.nodes) === null || _b === void 0 ? void 0 : _b.filter((node) => node.x === 0).map(node => node.y + height).sort((a, b) => b - a)[0];
     const canvasContent = { id: generateRandomId(), type: 'text', text: content, x: 0, y: y ? y + 8 : 0, width: width !== null && width !== void 0 ? width : 250, height: height !== null && height !== void 0 ? height : 60 };
-    canvas.nodes = [...canvas.nodes, canvasContent];
+    canvas.nodes = [...((_c = canvas.nodes) !== null && _c !== void 0 ? _c : []), canvasContent];
     fs_1.default.writeFileSync(filePath, JSON.stringify(canvas));
 };
 exports.handleCanvas = handleCanvas;

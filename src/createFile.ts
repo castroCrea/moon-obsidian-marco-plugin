@@ -21,7 +21,7 @@ export const handleCanvas = ({
   const y = (canvas.nodes as Array<{ x: number, y: number, height: number }>)?.filter((node) => node.x === 0).map(node => node.y + height).sort((a, b) => b - a)[0]
 
   const canvasContent = { id: generateRandomId(), type: 'text', text: content, x: 0, y: y ? y + 8 : 0, width: width ?? 250, height: height ?? 60 }
-  canvas.nodes = [...canvas.nodes, canvasContent]
+  canvas.nodes = [...(canvas.nodes ?? []), canvasContent]
 
   fs.writeFileSync(filePath, JSON.stringify(canvas))
 }
