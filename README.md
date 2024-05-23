@@ -9,9 +9,17 @@
 2. Choose an empty file that will serve as your template setup.
 3. Use the following markdown template as a starter.
 
-```md
-# NOTE WITH TITLE
+# Set up template
 
+Create a template file inside obsidian
+
+Then you can compose it with the following snippet. You can also import from the settings all this snippet and remove the one that you don't want.
+
+## Capture a note with a title at start
+
+Don't forget to modify the path to match your use case
+
+```
 {{START_NOTE}}
 {{PATH}}
 {{IF TITLE}}/Notes/{{TITLE}}.md {{END_IF TITLE}}
@@ -34,27 +42,75 @@
 {{CONTENT}}
 
 {{END_NOTE}}
+```
 
-# CLIP
+## Capture a note to a path using plugin obsidian mention anchor ">"
 
+Don't forget to modify the path to match your use case
+
+```
+{{START_NOTE}}
+{{PATH}}
+{{IF pluginPlayground.obsidian.notePath}}{{pluginPlayground.obsidian.notePath}}/{{TITLE}}.md {{END_IF pluginPlayground.obsidian.notePath}}
+{{IF TITLE}}/Notes/{{TITLE}}.md {{END_IF TITLE}}
+{{END_PATH}}
+---
+{{IF SOURCE.DESCRIPTION}}Description: |-
+  {{IF SOURCE.published}}{{SOURCE.published}} - {{END_IF SOURCE.published}}
+  {{IF SOURCE.TIMESTAMP.0}}[{{SOURCE.TIMESTAMP.0.timestamp}}]({{SOURCE.TIMESTAMP.0.URL}}) - {{END_IF SOURCE.TIMESTAMP.0}}
+  {{SOURCE.DESCRIPTION}} 
+{{END_IF SOURCE.DESCRIPTION}}
+
+{{IF SOURCE.url}}URL: {{SOURCE.url}} {{END_IF SOURCE.url}}
+
+{{IF PEOPLE.0.NAME}}Author: 
+- {{PEOPLE.0.NAME}} 
+{{IF PEOPLE.1.NAME}}  - {{PEOPLE.1.NAME}}{{END_IF PEOPLE.1.NAME}}
+{{IF PEOPLE.2.NAME}}  - {{PEOPLE.2.NAME}}{{END_IF PEOPLE.2.NAME}}
+{{IF PEOPLE.3.NAME}}  - {{PEOPLE.3.NAME}}{{END_IF PEOPLE.3.NAME}}
+{{END_IF PEOPLE.0.NAME}}
+---
+{{IF SOURCE.TEXT}}{{IF SOURCE.TITLE}}Source: [[/Sources/{{SOURCE.TITLE}}.md]] {{END_IF SOURCE.TITLE}}{{END_IF SOURCE.TEXT}}
+{{CONTENT}}
+
+{{END_NOTE}}
+```
+
+## Save the source over which you open Moon jot
+
+Don't forget to modify the path to match your use case
+
+
+```
 {{START_NOTE}}
 {{PATH}}
 {{IF SOURCE.TEXT}}{{IF SOURCE.TITLE}}/Sources/{{SOURCE.TITLE}}.md {{END_IF SOURCE.TITLE}}{{END_IF SOURCE.TEXT}}
 {{END_PATH}}
 ---
 {{IF PEOPLE.0.NAME}} author : {{PEOPLE.0.NAME}} {{END_IF PEOPLE.0.NAME}}
+{{IF SOURCE.DESCRIPTION}}Description: |-
+  {{IF SOURCE.published}}{{SOURCE.published}} - {{END_IF SOURCE.published}}
+  {{IF SOURCE.TIMESTAMP.0}}[{{SOURCE.TIMESTAMP.0.timestamp}}]({{SOURCE.TIMESTAMP.0.URL}}) - {{END_IF SOURCE.TIMESTAMP.0}}
+  {{SOURCE.DESCRIPTION}} 
+{{END_IF SOURCE.DESCRIPTION}}
 ---
 {{IF PEOPLE.0.NAME}}[[/People/{{PEOPLE.0.NAME}}.md]]{{END_IF PEOPLE.0.NAME}}
-
+{{IF PEOPLE.1.NAME}}[[/People/{{PEOPLE.1.NAME}}.md]]{{END_IF PEOPLE.1.NAME}}
+{{IF PEOPLE.2.NAME}}[[/People/{{PEOPLE.2.NAME}}.md]]{{END_IF PEOPLE.2.NAME}}
+{{IF PEOPLE.3.NAME}}[[/People/{{PEOPLE.3.NAME}}.md]]{{END_IF PEOPLE.3.NAME}}
 
 {{IF SOURCE.TEXT}}
 {{SOURCE.TEXT}}
 {{END_IF SOURCE.TEXT}}
 
 {{END_NOTE}}
+```
 
-# CLIP DM
+## Save the source Direct message over which you open Moon jot
 
+Don't forget to modify the path to match your use case
+
+```
 {{START_NOTE}}
 {{PATH}}
 {{IF SOURCE.dmContent}}{{IF SOURCE.TITLE}}/DM/{{SOURCE.TITLE}}.md{{END_IF SOURCE.TITLE}}{{END_IF SOURCE.dmContent}}
@@ -69,9 +125,13 @@
 {{END_IF SOURCE.dmContent}}
 
 {{END_NOTE}}
+```
 
-# People
+## Save the People Direct message over which you open Moon jot
 
+Don't forget to modify the path to match your use case
+
+```
 {{START_NOTE}}
 {{PATH}}
 {{IF PEOPLE.0.NAME}}/People/{{PEOPLE.0.NAME}}.md{{END_IF PEOPLE.0.NAME}}
@@ -96,12 +156,54 @@
 {{IF SOURCE.TITLE}}[[/Sources/{{SOURCE.TITLE}}.md]]{{END_IF SOURCE.TITLE}}
 
 {{END_NOTE}}
+```
 
-# JOURNAL
+## Create a journal note
 
+Don't forget to modify the path to match your use case
+
+```
 {{START_NOTE}}
 {{PATH}}/Journal/01 - Daily/{{DATE}}YYYY-MM-DD{{END_DATE}}.md{{END_PATH}}
-- {{CONTENT}} [{{SOURCE.TITLE}}]({{SOURCE.URL}}) {{IF PEOPLE.0.NAME}}[[/People/{{PEOPLE.0.NAME}}.md]]{{END_IF PEOPLE.0.NAME}}
+## Daily Tasks
+{{IF TASK}}{{CONTENT}}{{END_IF TASK}}
+## Notes
+{{IF TITLE}}
+- {{DATE}}HH:mm:ss{{END_DATE}}: [[/Notes/{{TITLE}}.md]]
+{{END_IF TITLE}}
+{{IF TASK === undefined }}
+{{IF TITLE === undefined }}
+{{IF PEOPLE.0.NAME}}
+- [[/People/{{PEOPLE.0.NAME}}.md]] 
+{{END_IF PEOPLE.0.NAME}}
+{{IF CONTENT}}
+- {{DATE}}HH:mm:ss{{END_DATE}}: {{CONTENT}}
+{{END_IF CONTENT}}
+{{IF SOURCE.URL}}
+- [{{SOURCE.TITLE}}]({{SOURCE.URL}}) 
+{{END_IF SOURCE.URL}}
+{{END_IF TASK}}
+{{END_IF TITLE}}
+{{END_NOTE}}
+```
+
+## Create a canvas note
+
+Don't forget to modify the path to match your use case
+
+```
+{{START_NOTE}}
+{{PATH}}/inbox.canvas{{END_PATH}}
+
+{{IF PEOPLE.0.NAME}}
+- [[/People/{{PEOPLE.0.NAME}}.md]] 
+{{END_IF PEOPLE.0.NAME}}
+{{IF CONTENT}}
+- {{DATE}}HH:mm:ss{{END_DATE}}: {{CONTENT}}
+{{END_IF CONTENT}}
+{{IF SOURCE.URL}}
+- [{{SOURCE.TITLE}}]({{SOURCE.URL}}) 
+{{END_IF SOURCE.URL}}
 {{END_NOTE}}
 ```
 

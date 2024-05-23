@@ -2,7 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.DEFAULT_TEMPLATE = void 0;
 exports.DEFAULT_TEMPLATE = `
-# NOTE WITH TITLE
+# Capture a note to a path using plugin obsidian mention anchor ">"
 
 {{START_NOTE}}
 {{PATH}}
@@ -30,7 +30,7 @@ exports.DEFAULT_TEMPLATE = `
 
 {{END_NOTE}}
 
-# CLIP
+# Save the source over which you open Moon jot
 
 {{START_NOTE}}
 {{PATH}}
@@ -55,7 +55,7 @@ exports.DEFAULT_TEMPLATE = `
 
 {{END_NOTE}}
 
-# CLIP DM
+# Save the source Direct message over which you open Moon jot
 
 {{START_NOTE}}
 {{PATH}}
@@ -72,7 +72,7 @@ exports.DEFAULT_TEMPLATE = `
 
 {{END_NOTE}}
 
-# People
+# Save the People Direct message over which you open Moon jot
 
 {{START_NOTE}}
 {{PATH}}
@@ -99,7 +99,23 @@ exports.DEFAULT_TEMPLATE = `
 
 {{END_NOTE}}
 
-# JOURNAL
+# Create a canvas note
+
+{{START_NOTE}}
+{{PATH}}/inbox.canvas{{END_PATH}}
+
+{{IF PEOPLE.0.NAME}}
+- [[/People/{{PEOPLE.0.NAME}}.md]] 
+{{END_IF PEOPLE.0.NAME}}
+{{IF CONTENT}}
+- {{DATE}}HH:mm:ss{{END_DATE}}: {{CONTENT}}
+{{END_IF CONTENT}}
+{{IF SOURCE.URL}}
+- [{{SOURCE.TITLE}}]({{SOURCE.URL}}) 
+{{END_IF SOURCE.URL}}
+{{END_NOTE}}
+
+# Create a journal note
 
 {{START_NOTE}}
 {{PATH}}/Journal/01 - Daily/{{DATE}}YYYY-MM-DD{{END_DATE}}.md{{END_PATH}}
