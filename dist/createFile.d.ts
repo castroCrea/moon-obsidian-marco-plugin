@@ -1,4 +1,8 @@
 import { type File } from './types';
+export declare const handleCanvas: ({ filePath, content }: {
+    filePath: string;
+    content: string;
+}) => void;
 export declare const mergeIfFileExist: (filePath: string, content: string) => void;
 export declare const createDirectory: (dirPath: string) => void;
 export declare const createFiles: ({ files, vaultPath }: {
