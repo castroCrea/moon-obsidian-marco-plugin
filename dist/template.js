@@ -104,10 +104,8 @@ exports.DEFAULT_TEMPLATE = `
 {{START_NOTE}}
 {{PATH}}/Journal/01 - Daily/{{DATE}}YYYY-MM-DD{{END_DATE}}.md{{END_PATH}}
 ## Daily Tasks
-
 {{IF TASK}}{{CONTENT}}{{END_IF TASK}}
 ## Notes
-
 {{IF TITLE}}
 - {{DATE}}HH:mm:ss{{END_DATE}}: [[/Notes/{{TITLE}}.md]]
 {{END_IF TITLE}}
